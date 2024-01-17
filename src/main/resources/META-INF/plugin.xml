@@ -1,0 +1,41 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.lomovtsev.xit-support</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Xit Support</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="coutvv@gmail.com" url="https://lomovtsev.com">Lomovtsev Roman</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    Sample plugin for highlighting <a href="https://xit.jotaen.net">[x]it files</a>.<br>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="Xit File"
+                implementationClass="com.lomovtsev.xitsupport.XitFileType"
+                fieldName="INSTANCE"
+                language="XIT"
+                extensions="xit"/>
+        <lang.parserDefinition
+                language="XIT"
+                implementationClass="com.lomovtsev.xitsupport.XitParserDefinition"
+        />
+<!--        <syntaxHighlighter factoryClass="com.lomovtsev.xitsupport.old.XitSyntaxHighlightProvider"/>-->
+<!--        <editorHighlighterProvider filetype="xit" implementationClass="com.lomovtsev.xitsupport.old.MyHighlightProvider"/>-->
+<!--        <highlightProvider implementationClass="" id="myHighlightProvider" />-->
+    </extensions>
+</idea-plugin>

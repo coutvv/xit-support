@@ -1,0 +1,17 @@
+{
+    parserClass="com.lomovtsev.xitsupport.XitParser"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+    psiClassPrefix="Xit"
+    psiPackage="com.lomovtsev.xitsupport.psi"
+    psiImplPackage="com.lomovtsev.xitsupport.psi.impl"
+
+    elementTypeHolderClass="com.lomovtsev.xitsupport.psi.XitTypes"
+    elementTypeClass="com.lomovtsev.xitsupport.XitElementType"
+    tokenTypeClass="com.lomovtsev.xitsupport.XitTokenType"
+
+}
+
+xitFile ::= item_*
+private item_ ::= (property|COMMENT|CRLF)
+property ::= (KEY? SEPARATOR VALUE?) | KEY
