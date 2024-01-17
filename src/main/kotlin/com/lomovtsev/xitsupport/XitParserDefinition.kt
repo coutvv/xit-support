@@ -29,7 +29,7 @@ class XitParserDefinition: ParserDefinition {
     }
 
     override fun getCommentTokens(): TokenSet {
-        return XitTokenSets.COMMENTS
+        return TokenSet.EMPTY
     }
 
     override fun getStringLiteralElements(): TokenSet {

@@ -13,5 +13,17 @@
 }
 
 xitFile ::= item_*
-private item_ ::= (property|COMMENT|CRLF)
-property ::= (KEY? SEPARATOR VALUE?) | KEY
+private item_ ::= (xitGroup | NEWLINE)
+//property ::= (KEY? SEPARATOR VALUE?) | KEY
+
+//xitGroup ::= (header point)
+//header ::= (newline sentence newline)
+//point ::= ((NEW_TASK | DONE_TASK | ONGOING_TASK | OBSOLETE_TASK) sentence newline)
+//sentence ::= (TEXT | whitespace)*
+
+point ::= (checkbox TEXT NEWLINE)
+checkbox ::= (NEW_TASK | DONE_TASK | ONGOING_TASK | OBSOLETE_TASK)
+xitGroup ::= (TEXT newline points)
+
+points ::= checkbox+
+
