@@ -54,7 +54,7 @@ obsoletePoint=  ("[~" {pointDescBegin})
     {ongoingPoint}    { return XitTypes.ONGOING_TASK; }
     {obsoletePoint}   { return XitTypes.OBSOLETE_TASK; }
     {newPoint}        { return XitTypes.NEW_TASK; }
-    {newline}       { return XitTypes.NEWLINE; }
+    {newline}         { return XitTypes.NEWLINE; }
 }
 
 <YYINITIAL> {WORD}          { return XitTypes.TEXT; }

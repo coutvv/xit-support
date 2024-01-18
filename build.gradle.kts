@@ -44,6 +44,19 @@ tasks {
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
 sourceSets["main"].java.srcDirs("src/main/gen")
+
+
+dependencies {
+
+    // JUnit 5
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.2.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.2.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-console:1.2.0")
+}
