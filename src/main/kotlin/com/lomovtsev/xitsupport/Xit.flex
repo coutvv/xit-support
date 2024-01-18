@@ -29,35 +29,57 @@ import com.intellij.psi.TokenType;
 newline              = \r|\n|\r\n
 whitespace           = \s
 
-LINE_SEPARATOR=[\n]
-CRLF=\R
+//CRLF=\R
 //TEXT=[^\n\f\\] | "\\"{CRLF} | "\\".
-WORD=[a-zA-Z]*
+word=[a-zA-Z]+
+space=" "
 
 digit=[0-9]
 number=digit.*
 
 //pointer=("[ ] ")[^\r\n]*
-pointDescBegin=("] ")[^\r\n]*
+//pointDescBegin=("] ")[^\r\n]*
 
-newPoint=       ("[ " {pointDescBegin})
-donePoint=      ("[x" {pointDescBegin})
-ongoingPoint=   ("[@" {pointDescBegin})
-obsoletePoint=  ("[~" {pointDescBegin})
+//newPoint=       ("[ " {pointDescBegin})
+//donePoint=      ("[x" {pointDescBegin})
+//ongoingPoint=   ("[@" {pointDescBegin})
+//obsoletePoint=  ("[~" {pointDescBegin})
 
-%state WAITING_VALUE
+openCheckbox =     "[ ] "
+doneCheckbox =     "[x] "
+ongoingCheckbox =  "[@] "
+obsoleteCheckbox = "[~] "
+
+//any_text = [^\n\f\\] | "\\".
+trueword = [^\n\s]+
+
+descIndent  = "    "
+
+
+
+//%state WAITING_VALUE
 
 
 %%
 <YYINITIAL> {
-    {donePoint}       { return XitTypes.DONE_TASK; }
-    {ongoingPoint}    { return XitTypes.ONGOING_TASK; }
-    {obsoletePoint}   { return XitTypes.OBSOLETE_TASK; }
-    {newPoint}        { return XitTypes.NEW_TASK; }
-    {newline}         { return XitTypes.NEWLINE; }
+    ^{openCheckbox}        { return XitTypes.OPEN_CHECKBOX; }
+    ^{doneCheckbox}        { return XitTypes.DONE_CHECKBOX; }
+    ^{ongoingCheckbox}     { return XitTypes.ONGOING_CHECKBOX; }
+    ^{obsoleteCheckbox}    { return XitTypes.OBSOLETE_CHECKBOX; }
+    ^{descIndent}          { return XitTypes.DESC_INDENT; }
+
+    {newline}             { return XitTypes.NEWLINE; }
+//    {any_text}+            { return XitTypes.TEXT; }
+//    {word}                { return XitTypes.WORD; }
+    {trueword}            { return XitTypes.WORD; }
+    {whitespace}          { return XitTypes.SPACE; }
+//    {donePoint}       { return XitTypes.DONE_TASK; }
+//    {ongoingPoint}    { return XitTypes.ONGOING_TASK; }
+//    {obsoletePoint}   { return XitTypes.OBSOLETE_TASK; }
+//    {newPoint}        { return XitTypes.NEW_TASK; }
 }
 
-<YYINITIAL> {WORD}          { return XitTypes.TEXT; }
+//<YYINITIAL> {WORD}          { return XitTypes.TEXT; }
 //
 
 //<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return XitTypes.COMMENT; }

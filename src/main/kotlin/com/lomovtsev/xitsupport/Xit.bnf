@@ -23,7 +23,14 @@ private item_ ::= (xitGroup | NEWLINE)
 
 point ::= (checkbox TEXT NEWLINE)
 checkbox ::= (NEW_TASK | DONE_TASK | ONGOING_TASK | OBSOLETE_TASK)
-xitGroup ::= (TEXT newline points)
+xitGroup ::= (TEXT NEWLINE points)
 
 points ::= checkbox+
 
+OPEN_CHECKBOX
+DONE_CHECKBOX
+ONGOING_CHECKBOX
+OBSOLETE_CHECKBOX
+WORD
+SPACE
+DESC_INDENT
