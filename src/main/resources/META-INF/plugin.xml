@@ -34,6 +34,10 @@
                 language="XIT"
                 implementationClass="com.lomovtsev.xitsupport.XitParserDefinition"
         />
+        <lang.syntaxHighlighterFactory
+                language="XIT"
+                implementationClass="com.lomovtsev.xitsupport.XitSyntaxHighlighterFactory"
+        />
 <!--        <syntaxHighlighter factoryClass="com.lomovtsev.xitsupport.old.XitSyntaxHighlightProvider"/>-->
 <!--        <editorHighlighterProvider filetype="xit" implementationClass="com.lomovtsev.xitsupport.old.MyHighlightProvider"/>-->
 <!--        <highlightProvider implementationClass="" id="myHighlightProvider" />-->
