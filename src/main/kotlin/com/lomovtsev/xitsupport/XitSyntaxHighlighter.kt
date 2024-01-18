@@ -11,14 +11,13 @@ import com.intellij.psi.tree.IElementType
 import com.lomovtsev.xitsupport.psi.XitTypes
 
 class XitSyntaxHighlighter : SyntaxHighlighterBase() {
+    companion object {
+        val SEPARATOR = createTextAttributesKey("XIT_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
+        val TASK = createTextAttributesKey("XIT_TASK", DefaultLanguageHighlighterColors.KEYWORD)
+        val TEXT = createTextAttributesKey("XIT_TEXT", DefaultLanguageHighlighterColors.STRING)
+        val BAD_CHAR = createTextAttributesKey("XIT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
+    }
 
-    val SEPARATOR = createTextAttributesKey("XIT_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-
-    val TASK = createTextAttributesKey("XIT_TASK", DefaultLanguageHighlighterColors.KEYWORD)
-
-    val TEXT = createTextAttributesKey("XIT_TEXT", DefaultLanguageHighlighterColors.STRING)
-
-    val BAD_CHAR = createTextAttributesKey("XIT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
 
     val SEPARATOR_KEYS = arrayOf(SEPARATOR)
     val TASK_KEYS = arrayOf(TASK)
