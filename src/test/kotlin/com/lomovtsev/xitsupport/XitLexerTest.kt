@@ -15,6 +15,10 @@ class XitLexerTest {
            title
            [ ] описание
                continue
+           
+           [ ] sample
+           
+           
         """.trimIndent()
         println(input)
         val lexer = XitLexer(StringReader(input))
@@ -25,7 +29,14 @@ class XitLexerTest {
         showTokens(tokens)
 
         assertTokenEquals(
-            listOf(WORD, NEWLINE, OPEN_CHECKBOX, WORD, NEWLINE, DESC_INDENT, WORD),
+            listOf(
+                TITLE_WORD, NEWLINE,
+                OPEN_CHECKBOX, OCH_WORD, NEWLINE,
+                DESC_INDENT, OCH_WORD, NEWLINE,
+                GROUP_END,
+                OPEN_CHECKBOX, OCH_WORD, NEWLINE,
+                GROUP_END
+            ),
             tokens
         )
     }

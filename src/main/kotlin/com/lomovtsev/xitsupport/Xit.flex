@@ -54,29 +54,49 @@ obsoleteCheckbox = "[~] "
 trueword = [^\n\s]+
 
 descIndent  = "    "
+emptyLine = []
 
 
-
-//%state WAITING_VALUE
+%state OPEN_CHECKBOX_DESCRIPTION
+%state OPEN_CHECKBOX_DESCRIPTION_END
+%state TITLE
 
 
 %%
 <YYINITIAL> {
-    ^{openCheckbox}        { return XitTypes.OPEN_CHECKBOX; }
-    ^{doneCheckbox}        { return XitTypes.DONE_CHECKBOX; }
-    ^{ongoingCheckbox}     { return XitTypes.ONGOING_CHECKBOX; }
-    ^{obsoleteCheckbox}    { return XitTypes.OBSOLETE_CHECKBOX; }
-    ^{descIndent}          { return XitTypes.DESC_INDENT; }
+    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
+//    ^{doneCheckbox}        { return XitTypes.DONE_CHECKBOX; }
+//    ^{ongoingCheckbox}     { return XitTypes.ONGOING_CHECKBOX; }
+//    ^{obsoleteCheckbox}    { return XitTypes.OBSOLETE_CHECKBOX; }
+//    ^{descIndent}          { return XitTypes.DESC_INDENT; }
 
     {newline}             { return XitTypes.NEWLINE; }
 //    {any_text}+            { return XitTypes.TEXT; }
 //    {word}                { return XitTypes.WORD; }
-    {trueword}            { return XitTypes.WORD; }
+    {trueword}            { yybegin(TITLE); return XitTypes.TITLE_WORD; } // TITLE!
     {whitespace}          { return XitTypes.SPACE; }
 //    {donePoint}       { return XitTypes.DONE_TASK; }
 //    {ongoingPoint}    { return XitTypes.ONGOING_TASK; }
 //    {obsoletePoint}   { return XitTypes.OBSOLETE_TASK; }
 //    {newPoint}        { return XitTypes.NEW_TASK; }
+}
+
+<TITLE> {
+    {newline}             { yybegin(YYINITIAL); return XitTypes.NEWLINE; }
+    {trueword}            { yybegin(TITLE); return XitTypes.TITLE_WORD; } // TITLE!
+    {whitespace}          { yybegin(TITLE);return XitTypes.SPACE; }
+}
+
+<OPEN_CHECKBOX_DESCRIPTION> {
+    {newline}       { yybegin(OPEN_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
+    {trueword}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
+    {whitespace}    { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.SPACE; }
+}
+
+<OPEN_CHECKBOX_DESCRIPTION_END> {
+    {newline}               { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
+    ^{descIndent}          { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
+    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
 }
 
 //<YYINITIAL> {WORD}          { return XitTypes.TEXT; }

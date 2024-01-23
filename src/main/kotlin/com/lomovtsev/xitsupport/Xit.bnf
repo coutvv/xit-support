@@ -21,16 +21,30 @@ private item_ ::= (xitGroup | NEWLINE)
 //point ::= ((NEW_TASK | DONE_TASK | ONGOING_TASK | OBSOLETE_TASK) sentence newline)
 //sentence ::= (TEXT | whitespace)*
 
-point ::= (checkbox TEXT NEWLINE)
-checkbox ::= (NEW_TASK | DONE_TASK | ONGOING_TASK | OBSOLETE_TASK)
-xitGroup ::= (TEXT NEWLINE points)
+//point ::= (checkbox TEXT NEWLINE)
+//checkbox ::= (NEW_TASK | DONE_TASK | ONGOING_TASK | OBSOLETE_TASK)
 
-points ::= checkbox+
+//points ::= checkbox+
 
-OPEN_CHECKBOX
-DONE_CHECKBOX
-ONGOING_CHECKBOX
-OBSOLETE_CHECKBOX
-WORD
-SPACE
-DESC_INDENT
+
+xitGroup ::= (title NEWLINE points GROUP_END)
+title ::= (TITLE_WORD | SPACE)+
+points ::= point+
+point ::= (OPEN_CHECKBOX point_description NEWLINE)
+point_description ::= (OCH_WORD | SPACE | addition_description)+
+addition_description ::= (NEWLINE DESC_INDENT)
+
+//groupSeparator ::= NEWLINE NEWLINE
+
+
+//OPEN_CHECKBOX
+//DONE_CHECKBOX
+//ONGOING_CHECKBOX
+//OBSOLETE_CHECKBOX
+//WORD
+//SPACE
+//DESC_INDENT
+//GROUP_END
+//
+//OCH_WORD
+//TITLE_WORD

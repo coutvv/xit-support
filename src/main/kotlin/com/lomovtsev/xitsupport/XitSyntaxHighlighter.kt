@@ -16,6 +16,7 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
         val TASK = createTextAttributesKey("XIT_TASK", DefaultLanguageHighlighterColors.KEYWORD)
         val TEXT = createTextAttributesKey("XIT_TEXT", DefaultLanguageHighlighterColors.STRING)
         val BAD_CHAR = createTextAttributesKey("XIT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
+        val OPEN_CHECKBOX = createTextAttributesKey("OPEN CHECKBOX", DefaultLanguageHighlighterColors.KEYWORD)
     }
 
 
@@ -23,6 +24,7 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
     val TASK_KEYS = arrayOf(TASK)
     val TEXT_KEYS = arrayOf(TEXT)
     val BAD_KEYS = arrayOf(BAD_CHAR)
+    val OCH_KEYS = arrayOf(OPEN_CHECKBOX)
 
     val EMPTY_KEYS = emptyArray<TextAttributesKey>()
     override fun getHighlightingLexer(): Lexer {
@@ -32,8 +34,9 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> {
         return when (tokenType) {
             XitTypes.POINT -> TASK_KEYS
-            XitTypes.TEXT -> TEXT_KEYS
+//            XitTypes.TEXT -> TEXT_KEYS
             TokenType.BAD_CHARACTER -> BAD_KEYS
+            XitTypes.OPEN_CHECKBOX -> OCH_KEYS
             else -> EMPTY_KEYS
         }
     }
