@@ -9,10 +9,11 @@ import javax.swing.Icon
 
 class XitColorSettingsPage : ColorSettingsPage {
     val DESCRIPTORS = arrayOf(
-        AttributesDescriptor("Task", XitSyntaxHighlighter.TASK),
-        AttributesDescriptor("Title", XitSyntaxHighlighter.TEXT),
+//        AttributesDescriptor("Task", XitSyntaxHighlighter.TASK),
+        AttributesDescriptor("Title", XitSyntaxHighlighter.TITLE),
         AttributesDescriptor("Bad value", XitSyntaxHighlighter.BAD_CHAR),
         AttributesDescriptor("Separator", XitSyntaxHighlighter.SEPARATOR), // TODO: no need it
+        AttributesDescriptor("Open checkbox", XitSyntaxHighlighter.OPEN_CHECKBOX), // TODO: no need it
     )
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> {
         return DESCRIPTORS
@@ -38,9 +39,8 @@ class XitColorSettingsPage : ColorSettingsPage {
         return """
             This is the xit demo sample file
             [ ] Simple checkbox
-            [x] Done checkbox
-            [@] Ongoing checkbox
-            [~] Obsolete checkbox
+                continue of task description
+            [ ] other task
 
         """.trimIndent()
     }

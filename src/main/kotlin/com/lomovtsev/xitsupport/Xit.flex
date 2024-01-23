@@ -84,13 +84,13 @@ emptyLine = []
 <TITLE> {
     {newline}             { yybegin(YYINITIAL); return XitTypes.NEWLINE; }
     {trueword}            { yybegin(TITLE); return XitTypes.TITLE_WORD; } // TITLE!
-    {whitespace}          { yybegin(TITLE);return XitTypes.SPACE; }
+    {whitespace}          { yybegin(TITLE);return XitTypes.TITLE_WORD; }
 }
 
 <OPEN_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(OPEN_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
     {trueword}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
-    {whitespace}    { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.SPACE; }
+    {whitespace}    { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
 }
 
 <OPEN_CHECKBOX_DESCRIPTION_END> {

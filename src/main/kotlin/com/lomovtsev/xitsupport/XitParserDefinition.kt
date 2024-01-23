@@ -33,7 +33,7 @@ class XitParserDefinition: ParserDefinition {
     }
 
     override fun getStringLiteralElements(): TokenSet {
-        return TokenSet.EMPTY
+        return XitTokenSets.STRINGS
     }
 
     override fun createElement(node: ASTNode?): PsiElement {
