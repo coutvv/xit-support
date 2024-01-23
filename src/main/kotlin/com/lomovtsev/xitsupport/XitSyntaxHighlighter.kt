@@ -14,11 +14,12 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.lomovtsev.xitsupport.psi.XitTypes
 import com.vladsch.flexmark.util.html.ui.Color
+import org.apache.http.annotation.Obsolete
 
 class XitSyntaxHighlighter : SyntaxHighlighterBase() {
     companion object {
         val SEPARATOR = createTextAttributesKey("XIT_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-        val TASK = createTextAttributesKey("XIT_TASK", DefaultLanguageHighlighterColors.KEYWORD)
+
         val TEXT = createTextAttributesKey("XIT_TEXT", DefaultLanguageHighlighterColors.STRING)
         val BAD_CHAR = createTextAttributesKey("XIT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
         val OPEN_CHECKBOX = createTextAttributesKey("OPEN CHECKBOX", DefaultLanguageHighlighterColors.KEYWORD)
@@ -30,6 +31,8 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
          * TODO: delete (custom attribute key)
          */
         val TITLE_WORD = createTextAttributesKey("TITLE WORD", xitTitle())
+
+        val ONGOING_CHECKBOX = createTextAttributesKey("Ongoing Checkbox", DefaultLanguageHighlighterColors.METADATA)
         private fun xitTitle(): TextAttributes {
             val result = TextAttributes()
             result.effectType = EffectType.LINE_UNDERSCORE
@@ -50,6 +53,11 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
 
     val DONE_KEYS = arrayOf(COMMENT)
 
+    val ONGOING_CHB_KEYS = arrayOf(ONGOING_CHECKBOX) // yeah!
+    val ONGOING_WORD = arrayOf(TEXT)
+
+    val OBSOLETE_KEYS = arrayOf(COMMENT)
+
     override fun getHighlightingLexer(): Lexer {
         return XitLexerAdapter()
     }
@@ -64,6 +72,13 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
 
             XitTypes.DONE_CHECKBOX -> DONE_KEYS // TODO:
             XitTypes.CCH_WORD -> DONE_KEYS
+
+            XitTypes.ONGOING_CHECKBOX -> ONGOING_CHB_KEYS
+            XitTypes.GCH_WORD -> ONGOING_WORD
+
+            XitTypes.OBS_WORD -> OBSOLETE_KEYS
+            XitTypes.OBSOLETE_CHECKBOX -> OBSOLETE_KEYS
+
             else -> EMPTY_KEYS
         }
     }

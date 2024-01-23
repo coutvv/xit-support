@@ -75,8 +75,11 @@ emptyLine = []
 <OPEN_CHECKBOX_DESCRIPTION_END> {
     {newline}               { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
     ^{descIndent}          { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
+
     ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
     ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
+    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
+    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
 }
 
 <CLOSE_CHECKBOX_DESCRIPTION> {
@@ -88,8 +91,43 @@ emptyLine = []
 <CLOSE_CHECKBOX_DESCRIPTION_END> {
     {newline}               { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
     ^{descIndent}          { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
-    ^{openCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
+
+    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
     ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
+    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
+    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
+}
+
+<ONGOING_CHECKBOX_DESCRIPTION> {
+    {newline}       { yybegin(ONGOING_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
+    {trueword}      { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
+    {whitespace}    { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
+}
+
+<ONGOING_CHECKBOX_DESCRIPTION_END> {
+    {newline}               { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
+    ^{descIndent}          { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
+
+    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
+    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
+    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
+    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
+}
+
+<OBSOLETE_CHECKBOX_DESCRIPTION> {
+    {newline}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
+    {trueword}      { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
+    {whitespace}    { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
+}
+
+<OBSOLETE_CHECKBOX_DESCRIPTION_END> {
+    {newline}               { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
+    ^{descIndent}          { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
+
+    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
+    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
+    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
+    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
 }
 
 
