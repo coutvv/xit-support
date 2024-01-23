@@ -25,7 +25,7 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
         val TITLE = createTextAttributesKey("TITLE", DefaultLanguageHighlighterColors.HIGHLIGHTED_REFERENCE)
 
         val HIGHLIGHT = createTextAttributesKey("TITLE_LINK", CodeInsightColors.HYPERLINK_ATTRIBUTES)
-
+        val COMMENT = createTextAttributesKey("COMMENTING", DefaultLanguageHighlighterColors.LINE_COMMENT)
         /**
          * TODO: delete (custom attribute key)
          */
@@ -48,6 +48,8 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
     val TITLE_KEYS = arrayOf(HIGHLIGHT)
     val EMPTY_KEYS = emptyArray<TextAttributesKey>()
 
+    val DONE_KEYS = arrayOf(COMMENT)
+
     override fun getHighlightingLexer(): Lexer {
         return XitLexerAdapter()
     }
@@ -55,10 +57,13 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> {
         return when (tokenType) {
             TokenType.BAD_CHARACTER -> BAD_KEYS
-            XitTypes.OPEN_CHECKBOX -> OCH_KEYS
             XitTypes.TITLE_WORD -> TITLE_KEYS
 
+            XitTypes.OPEN_CHECKBOX -> OCH_KEYS
             XitTypes.OCH_WORD -> OCH_WORD_KEYS
+
+            XitTypes.DONE_CHECKBOX -> DONE_KEYS // TODO:
+            XitTypes.CCH_WORD -> DONE_KEYS
             else -> EMPTY_KEYS
         }
     }
