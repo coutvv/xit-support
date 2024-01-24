@@ -33,6 +33,7 @@ obsoleteCheckbox = "[~] "
 questionCheckbox = "[?] "
 
 trueword = [^\n\s\#]+
+titleword = [^\n\s]+
 hashtag = ("#" {trueword})
 
 descIndent  = "    "
@@ -82,13 +83,13 @@ priority = [!.]+
       }
 
     {newline}             { return XitTypes.NEWLINE; }
-    {trueword}            { yybegin(TITLE); return XitTypes.TITLE_WORD; }
+    {titleword}            { yybegin(TITLE); return XitTypes.TITLE_WORD; }
     {whitespace}          { return XitTypes.SPACE; }
 }
 
 <TITLE> {
     {newline}                       { yybegin(YYINITIAL); return XitTypes.NEWLINE; }
-    {trueword} | {whitespace}       { yybegin(TITLE);     return XitTypes.TITLE_WORD; }
+    {titleword} | {whitespace}       { yybegin(TITLE);     return XitTypes.TITLE_WORD; }
 }
 
 

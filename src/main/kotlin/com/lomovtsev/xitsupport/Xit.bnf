@@ -27,7 +27,7 @@ private item_ ::= (xitGroup | NEWLINE)
 //points ::= checkbox+
 
 
-xitGroup ::= (title points GROUP_END) | (points GROUP_END)
+xitGroup ::= (title points GROUP_END) | (points GROUP_END) | (points) | (title)
 title ::= (TITLE_WORD | SPACE)+ NEWLINE
 points ::= point+
 point ::= (checkbox_part PRIORITY? point_description NEWLINE)
