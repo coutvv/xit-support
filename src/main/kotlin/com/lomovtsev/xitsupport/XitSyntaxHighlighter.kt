@@ -23,40 +23,66 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
         val TEXT = createTextAttributesKey("XIT_TEXT", DefaultLanguageHighlighterColors.STRING)
         val BAD_CHAR = createTextAttributesKey("XIT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
         val OPEN_CHECKBOX = createTextAttributesKey("OPEN CHECKBOX", DefaultLanguageHighlighterColors.KEYWORD)
+        val OPEN_CHECKBOX_V2 = createTextAttributesKey("Xit Open Checkbox", DefaultLanguageHighlighterColors.NUMBER)
         val TITLE = createTextAttributesKey("TITLE", DefaultLanguageHighlighterColors.HIGHLIGHTED_REFERENCE)
 
         val HIGHLIGHT = createTextAttributesKey("TITLE_LINK", CodeInsightColors.HYPERLINK_ATTRIBUTES)
         val COMMENT = createTextAttributesKey("COMMENTING", DefaultLanguageHighlighterColors.LINE_COMMENT)
+        val X_TEXT = createTextAttributesKey("OBSOLETE TASK", CodeInsightColors.DEPRECATED_ATTRIBUTES)
+
+        val ACTIVE_TEXT = createTextAttributesKey("ACTIVE TEXT", DefaultLanguageHighlighterColors.CLASS_NAME)
         /**
          * TODO: delete (custom attribute key)
          */
         val TITLE_WORD = createTextAttributesKey("TITLE WORD", xitTitle())
 
-        val ONGOING_CHECKBOX = createTextAttributesKey("Ongoing Checkbox", DefaultLanguageHighlighterColors.METADATA)
+        val ONGOING_CHECKBOX = createTextAttributesKey(
+            "Ongoing Checkbox",
+            DefaultLanguageHighlighterColors.INSTANCE_FIELD
+//            DefaultLanguageHighlighterColors.METADATA
+        )
+
+        val QUESTION_CHECKBOX = createTextAttributesKey(
+            "Xit Question Checkbox",
+            DefaultLanguageHighlighterColors.METADATA
+        )
         private fun xitTitle(): TextAttributes {
             val result = TextAttributes()
-            result.effectType = EffectType.LINE_UNDERSCORE
+            result.effectType = EffectType.BOLD_LINE_UNDERSCORE
             result.foregroundColor = Color.WHITE
-//            result.backgroundColor =  Color.CYAN
+            result.backgroundColor =  Color.CYAN
 
             return result
         }
+
+
+        val DONE_CHECKBOX = createTextAttributesKey("Xit Done Checkbox", DefaultLanguageHighlighterColors.STRING)
     }
 
 
     val BAD_KEYS = arrayOf(BAD_CHAR)
-    val OCH_KEYS = arrayOf(OPEN_CHECKBOX)
-    val OCH_WORD_KEYS = arrayOf(TEXT)
+    val OCH_KEYS = arrayOf(OPEN_CHECKBOX_V2)
+    val OCH_WORD_KEYS = arrayOf(ACTIVE_TEXT)
 
-    val TITLE_KEYS = arrayOf(HIGHLIGHT)
+    val TITLE_KEYS = arrayOf(ACTIVE_TEXT, HIGHLIGHT)
     val EMPTY_KEYS = emptyArray<TextAttributesKey>()
 
+    val DONE_CHECKBOX_KEYS = arrayOf(DONE_CHECKBOX)
     val DONE_KEYS = arrayOf(COMMENT)
 
     val ONGOING_CHB_KEYS = arrayOf(ONGOING_CHECKBOX) // yeah!
-    val ONGOING_WORD = arrayOf(TEXT)
+    val ONGOING_WORD = arrayOf(ACTIVE_TEXT)
 
     val OBSOLETE_KEYS = arrayOf(COMMENT)
+    val OBSOLETE_WORD_KEYS = arrayOf(COMMENT, X_TEXT)
+
+    val QUESTION_CHECKBOX_KEYS = arrayOf(QUESTION_CHECKBOX)
+    val QUESTION_WORD_KEYS = arrayOf(ACTIVE_TEXT)
+
+    /**
+     * used for checking my lex feature development
+     */
+    val SIGNAL_KEYS = arrayOf(TITLE_WORD)
 
     override fun getHighlightingLexer(): Lexer {
         return XitLexerAdapter()
@@ -70,14 +96,17 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
             XitTypes.OPEN_CHECKBOX -> OCH_KEYS
             XitTypes.OCH_WORD -> OCH_WORD_KEYS
 
-            XitTypes.DONE_CHECKBOX -> DONE_KEYS // TODO:
+            XitTypes.DONE_CHECKBOX -> DONE_CHECKBOX_KEYS
             XitTypes.CCH_WORD -> DONE_KEYS
 
             XitTypes.ONGOING_CHECKBOX -> ONGOING_CHB_KEYS
             XitTypes.GCH_WORD -> ONGOING_WORD
 
-            XitTypes.OBS_WORD -> OBSOLETE_KEYS
+            XitTypes.OBS_WORD -> OBSOLETE_WORD_KEYS
             XitTypes.OBSOLETE_CHECKBOX -> OBSOLETE_KEYS
+
+            XitTypes.QUESTION_CHECKBOX -> QUESTION_CHECKBOX_KEYS
+            XitTypes.QUESTION_WORD -> QUESTION_WORD_KEYS
 
             else -> EMPTY_KEYS
         }

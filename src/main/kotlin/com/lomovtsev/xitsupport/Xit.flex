@@ -31,6 +31,7 @@ openCheckbox =     "[ ] "
 doneCheckbox =     "[x] "
 ongoingCheckbox =  "[@] "
 obsoleteCheckbox = "[~] "
+questionCheckbox = "[?] "
 
 trueword = [^\n\s]+
 
@@ -47,14 +48,17 @@ emptyLine = []
 %state ONGOING_CHECKBOX_DESCRIPTION_END
 %state OBSOLETE_CHECKBOX_DESCRIPTION
 %state OBSOLETE_CHECKBOX_DESCRIPTION_END
+%state QUESTION_CHECKBOX_DESCRIPTION
+%state QUESTION_CHECKBOX_DESCRIPTION_END
 
 
 %%
 <YYINITIAL> {
-    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
-    ^{doneCheckbox}        { return XitTypes.DONE_CHECKBOX; }
-    ^{ongoingCheckbox}     { return XitTypes.ONGOING_CHECKBOX; }
-    ^{obsoleteCheckbox}    { return XitTypes.OBSOLETE_CHECKBOX; }
+    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION);     return XitTypes.OPEN_CHECKBOX; }
+    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION);    return XitTypes.DONE_CHECKBOX; }
+    ^{ongoingCheckbox}     { yybegin(ONGOING_CHECKBOX_DESCRIPTION);  return XitTypes.ONGOING_CHECKBOX; }
+    ^{obsoleteCheckbox}    { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
+    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
 
     {newline}             { return XitTypes.NEWLINE; }
     {trueword}            { yybegin(TITLE); return XitTypes.TITLE_WORD; } // TITLE!
@@ -80,6 +84,7 @@ emptyLine = []
     ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
     ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
     ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
+    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
 }
 
 <CLOSE_CHECKBOX_DESCRIPTION> {
@@ -96,6 +101,7 @@ emptyLine = []
     ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
     ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
     ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
+    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
 }
 
 <ONGOING_CHECKBOX_DESCRIPTION> {
@@ -112,6 +118,7 @@ emptyLine = []
     ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
     ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
     ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
+    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
 }
 
 <OBSOLETE_CHECKBOX_DESCRIPTION> {
@@ -128,8 +135,26 @@ emptyLine = []
     ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
     ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
     ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
+    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
 }
 
+<QUESTION_CHECKBOX_DESCRIPTION> {
+    {newline}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION_END); return XitTypes.GROUP_END; } // group end?
+    {trueword}      { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_WORD; }
+    {whitespace}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_WORD; }
+
+}
+
+<QUESTION_CHECKBOX_DESCRIPTION_END> {
+    {newline}                { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
+    ^{descIndent}          { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
+
+    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
+    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
+    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
+    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
+    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
+}
 
 // if undefined token -- then bad character
 [^]            { return TokenType.BAD_CHARACTER; }
