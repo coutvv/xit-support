@@ -15,5 +15,6 @@ class LexerToolTest {
         assertFalse(LexerTool.isPriorityValid(".!!!.!!."))
         assertFalse(LexerTool.isPriorityValid("!!!.!!"))
         assertFalse(LexerTool.isPriorityValid(".!!!.!!"))
+        assertFalse(LexerTool.isPriorityValid(""))
     }
 }
