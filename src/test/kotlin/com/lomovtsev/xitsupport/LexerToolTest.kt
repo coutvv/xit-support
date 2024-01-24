@@ -8,6 +8,8 @@ class LexerToolTest {
 
     @Test
     fun testValidPriority() {
+        assertTrue(LexerTool.isPriorityValid("."))
+        assertTrue(LexerTool.isPriorityValid(".!"))
         assertTrue(LexerTool.isPriorityValid("!!!"))
         assertTrue(LexerTool.isPriorityValid("..!"))
         assertTrue(LexerTool.isPriorityValid("!.."))
