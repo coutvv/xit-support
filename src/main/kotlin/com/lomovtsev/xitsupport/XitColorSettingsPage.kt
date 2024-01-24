@@ -8,21 +8,32 @@ import com.intellij.openapi.options.colors.ColorSettingsPage
 import javax.swing.Icon
 
 class XitColorSettingsPage : ColorSettingsPage {
-    val DESCRIPTORS = arrayOf(
-//        AttributesDescriptor("Task", XitSyntaxHighlighter.TASK),
+    private val attributesDescriptors = arrayOf(
         AttributesDescriptor("Bad value", XitSyntaxHighlighter.BAD_CHAR),
-//        AttributesDescriptor("Separator", XitSyntaxHighlighter.SEPARATOR), // TODO: no need it
 
-//        AttributesDescriptor("Title", XitSyntaxHighlighter.TITLE),
+        AttributesDescriptor("Active text", XitSyntaxHighlighter.ACTIVE_TEXT),
+        AttributesDescriptor("Passive text", XitSyntaxHighlighter.PASSIVE_TEXT),
+        AttributesDescriptor("Title text", XitSyntaxHighlighter.TITLE_TEXT),
 
-        AttributesDescriptor("Open checkbox", XitSyntaxHighlighter.OPEN_CHECKBOX), // TODO: no need it
-        AttributesDescriptor("Active task description", XitSyntaxHighlighter.ACTIVE_TEXT),
+        AttributesDescriptor("Open checkbox", XitSyntaxHighlighter.OPEN_CHECKBOX),
+        AttributesDescriptor("Open description", XitSyntaxHighlighter.OPEN_DESCRIPTION),
 
-        AttributesDescriptor("Close checkbox", XitSyntaxHighlighter.DONE_CHECKBOX),
+        AttributesDescriptor("Done checkbox", XitSyntaxHighlighter.DONE_CHECKBOX),
+        AttributesDescriptor("Done description", XitSyntaxHighlighter.DONE_DESCRIPTION),
+
+        AttributesDescriptor("Ongoing checkbox", XitSyntaxHighlighter.ONGOING_CHECKBOX),
+        AttributesDescriptor("Ongoing description", XitSyntaxHighlighter.ONGOING_DESCRIPTION),
+
+        AttributesDescriptor("Question checkbox", XitSyntaxHighlighter.QUESTION_CHECKBOX),
+        AttributesDescriptor("Question description", XitSyntaxHighlighter.QUESTION_DESCRIPTION),
+
+        AttributesDescriptor("Obsolete checkbox", XitSyntaxHighlighter.OBSOLETE_CHECKBOX),
+        AttributesDescriptor("Obsolete description", XitSyntaxHighlighter.OBSOLETE_DESCRIPTION),
+        AttributesDescriptor("Obsolete description strike", XitSyntaxHighlighter.OBSOLETE_DESCRIPTION_STRIKE),
 
     )
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> {
-        return DESCRIPTORS
+        return attributesDescriptors
     }
 
     override fun getColorDescriptors(): Array<ColorDescriptor> {
@@ -43,10 +54,18 @@ class XitColorSettingsPage : ColorSettingsPage {
 
     override fun getDemoText(): String {
         return """
-            This is the xit demo sample file
-            [ ] Simple checkbox
-                continue of task description
+            [ ] This is an open item
+            [x] This is a checked item
+            [@] This is an ongoing item
+            [~] This is an obsolete item
+            [?] This is an item in question
+            
+            Group of tasks with title
+            [ ] task 1
+            [x] done task
+            [@] in progress задача 
             [ ] other task
+
 
         """.trimIndent()
     }
