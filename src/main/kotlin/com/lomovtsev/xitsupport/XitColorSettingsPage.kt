@@ -10,10 +10,16 @@ import javax.swing.Icon
 class XitColorSettingsPage : ColorSettingsPage {
     val DESCRIPTORS = arrayOf(
 //        AttributesDescriptor("Task", XitSyntaxHighlighter.TASK),
-        AttributesDescriptor("Title", XitSyntaxHighlighter.TITLE),
         AttributesDescriptor("Bad value", XitSyntaxHighlighter.BAD_CHAR),
-        AttributesDescriptor("Separator", XitSyntaxHighlighter.SEPARATOR), // TODO: no need it
+//        AttributesDescriptor("Separator", XitSyntaxHighlighter.SEPARATOR), // TODO: no need it
+
+//        AttributesDescriptor("Title", XitSyntaxHighlighter.TITLE),
+
         AttributesDescriptor("Open checkbox", XitSyntaxHighlighter.OPEN_CHECKBOX), // TODO: no need it
+        AttributesDescriptor("Active task description", XitSyntaxHighlighter.ACTIVE_TEXT),
+
+        AttributesDescriptor("Close checkbox", XitSyntaxHighlighter.DONE_CHECKBOX),
+
     )
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> {
         return DESCRIPTORS

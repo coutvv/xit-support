@@ -9,80 +9,79 @@ import com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributes
 import com.intellij.openapi.editor.markup.EffectType
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
-import com.intellij.openapi.keymap.impl.ui.Hyperlink
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.lomovtsev.xitsupport.psi.XitTypes
 import com.vladsch.flexmark.util.html.ui.Color
-import org.apache.http.annotation.Obsolete
 
 class XitSyntaxHighlighter : SyntaxHighlighterBase() {
     companion object {
-        val SEPARATOR = createTextAttributesKey("XIT_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-
-        val TEXT = createTextAttributesKey("XIT_TEXT", DefaultLanguageHighlighterColors.STRING)
         val BAD_CHAR = createTextAttributesKey("XIT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
-        val OPEN_CHECKBOX = createTextAttributesKey("OPEN CHECKBOX", DefaultLanguageHighlighterColors.KEYWORD)
-        val OPEN_CHECKBOX_V2 = createTextAttributesKey("Xit Open Checkbox", DefaultLanguageHighlighterColors.NUMBER)
-        val TITLE = createTextAttributesKey("TITLE", DefaultLanguageHighlighterColors.HIGHLIGHTED_REFERENCE)
 
-        val HIGHLIGHT = createTextAttributesKey("TITLE_LINK", CodeInsightColors.HYPERLINK_ATTRIBUTES)
-        val COMMENT = createTextAttributesKey("COMMENTING", DefaultLanguageHighlighterColors.LINE_COMMENT)
-        val X_TEXT = createTextAttributesKey("OBSOLETE TASK", CodeInsightColors.DEPRECATED_ATTRIBUTES)
+        val ACTIVE_TEXT = createTextAttributesKey("Xit Active Text", DefaultLanguageHighlighterColors.CLASS_NAME)
+        val PASSIVE_TEXT = createTextAttributesKey("Xit Passive Text", DefaultLanguageHighlighterColors.LINE_COMMENT)
 
-        val ACTIVE_TEXT = createTextAttributesKey("ACTIVE TEXT", DefaultLanguageHighlighterColors.CLASS_NAME)
-        /**
-         * TODO: delete (custom attribute key)
-         */
-        val TITLE_WORD = createTextAttributesKey("TITLE WORD", xitTitle())
+        val TITLE_TEXT = createTextAttributesKey("Xit Title Text", CodeInsightColors.HYPERLINK_ATTRIBUTES)
+
+        val OPEN_CHECKBOX = createTextAttributesKey(
+            "Xit Open Checkbox",
+            DefaultLanguageHighlighterColors.NUMBER
+        )
+        val OPEN_DESCRIPTION = createTextAttributesKey(
+            "Xit Open Description",
+            ACTIVE_TEXT
+        )
+
+        val DONE_CHECKBOX = createTextAttributesKey("Xit Done Checkbox", DefaultLanguageHighlighterColors.STRING)
+        val DONE_DESCRIPTION = createTextAttributesKey(
+            "Xit Done Description",
+            PASSIVE_TEXT
+        )
 
         val ONGOING_CHECKBOX = createTextAttributesKey(
-            "Ongoing Checkbox",
+            "Xit Ongoing Checkbox",
             DefaultLanguageHighlighterColors.INSTANCE_FIELD
-//            DefaultLanguageHighlighterColors.METADATA
+        )
+        val ONGOING_DESCRIPTION = createTextAttributesKey(
+            "Xit Ongoing Description",
+            ACTIVE_TEXT
         )
 
         val QUESTION_CHECKBOX = createTextAttributesKey(
             "Xit Question Checkbox",
             DefaultLanguageHighlighterColors.METADATA
         )
-        private fun xitTitle(): TextAttributes {
-            val result = TextAttributes()
-            result.effectType = EffectType.BOLD_LINE_UNDERSCORE
-            result.foregroundColor = Color.WHITE
-            result.backgroundColor =  Color.CYAN
+        val QUESTION_DESCRIPTION = createTextAttributesKey(
+            "Xit Question Description",
+            ACTIVE_TEXT
+        )
 
-            return result
-        }
-
-
-        val DONE_CHECKBOX = createTextAttributesKey("Xit Done Checkbox", DefaultLanguageHighlighterColors.STRING)
+        val OBSOLETE_CHECKBOX = createTextAttributesKey("Xit Obsolete Checkbox", PASSIVE_TEXT)
+        val OBSOLETE_DESCRIPTION = createTextAttributesKey("Xit Obsolete Description", PASSIVE_TEXT)
+        val OBSOLETE_DESCRIPTION_STRIKE = createTextAttributesKey(
+                "Xit Strike Obsolete Description", CodeInsightColors.DEPRECATED_ATTRIBUTES
+        )
     }
 
 
-    val BAD_KEYS = arrayOf(BAD_CHAR)
-    val OCH_KEYS = arrayOf(OPEN_CHECKBOX_V2)
-    val OCH_WORD_KEYS = arrayOf(ACTIVE_TEXT)
+    private val BAD_KEYS = arrayOf(BAD_CHAR)
+    private val TITLE_KEYS = arrayOf(TITLE_TEXT)
+    private val EMPTY_KEYS = emptyArray<TextAttributesKey>()
 
-    val TITLE_KEYS = arrayOf(ACTIVE_TEXT, HIGHLIGHT)
-    val EMPTY_KEYS = emptyArray<TextAttributesKey>()
+    private val OPEN_CHB_KEYS = arrayOf(OPEN_CHECKBOX)
+    private val OPEN_DESC_KEYS = arrayOf(OPEN_DESCRIPTION)
 
-    val DONE_CHECKBOX_KEYS = arrayOf(DONE_CHECKBOX)
-    val DONE_KEYS = arrayOf(COMMENT)
+    private val DONE_CHB_KEYS = arrayOf(DONE_CHECKBOX)
+    private val DONE_DESC_KEYS = arrayOf(DONE_DESCRIPTION)
 
-    val ONGOING_CHB_KEYS = arrayOf(ONGOING_CHECKBOX) // yeah!
-    val ONGOING_WORD = arrayOf(ACTIVE_TEXT)
+    private val ONGOING_CHB_KEYS = arrayOf(ONGOING_CHECKBOX) // yeah!
+    private val ONGOING_DESC_KEYS = arrayOf(ONGOING_DESCRIPTION)
 
-    val OBSOLETE_KEYS = arrayOf(COMMENT)
-    val OBSOLETE_WORD_KEYS = arrayOf(COMMENT, X_TEXT)
+    private val OBSOLETE_CHB_KEYS = arrayOf(OBSOLETE_CHECKBOX)
+    private val OBSOLETE_DESC_KEYS = arrayOf(OBSOLETE_DESCRIPTION, OBSOLETE_DESCRIPTION_STRIKE)
 
-    val QUESTION_CHECKBOX_KEYS = arrayOf(QUESTION_CHECKBOX)
-    val QUESTION_WORD_KEYS = arrayOf(ACTIVE_TEXT)
-
-    /**
-     * used for checking my lex feature development
-     */
-    val SIGNAL_KEYS = arrayOf(TITLE_WORD)
+    private val QUESTION_CHB_KEYS = arrayOf(QUESTION_CHECKBOX)
+    private val QUESTION_DESC_KEYS = arrayOf(QUESTION_DESCRIPTION)
 
     override fun getHighlightingLexer(): Lexer {
         return XitLexerAdapter()
@@ -91,24 +90,48 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> {
         return when (tokenType) {
             TokenType.BAD_CHARACTER -> BAD_KEYS
+
             XitTypes.TITLE_WORD -> TITLE_KEYS
 
-            XitTypes.OPEN_CHECKBOX -> OCH_KEYS
-            XitTypes.OCH_WORD -> OCH_WORD_KEYS
+            XitTypes.OPEN_CHECKBOX -> OPEN_CHB_KEYS
+            XitTypes.OCH_WORD -> OPEN_DESC_KEYS
 
-            XitTypes.DONE_CHECKBOX -> DONE_CHECKBOX_KEYS
-            XitTypes.CCH_WORD -> DONE_KEYS
+            XitTypes.DONE_CHECKBOX -> DONE_CHB_KEYS
+            XitTypes.CCH_WORD -> DONE_DESC_KEYS
 
             XitTypes.ONGOING_CHECKBOX -> ONGOING_CHB_KEYS
-            XitTypes.GCH_WORD -> ONGOING_WORD
+            XitTypes.GCH_WORD -> ONGOING_DESC_KEYS
 
-            XitTypes.OBS_WORD -> OBSOLETE_WORD_KEYS
-            XitTypes.OBSOLETE_CHECKBOX -> OBSOLETE_KEYS
+            XitTypes.OBS_WORD -> OBSOLETE_DESC_KEYS
+            XitTypes.OBSOLETE_CHECKBOX -> OBSOLETE_CHB_KEYS
 
-            XitTypes.QUESTION_CHECKBOX -> QUESTION_CHECKBOX_KEYS
-            XitTypes.QUESTION_WORD -> QUESTION_WORD_KEYS
+            XitTypes.QUESTION_CHECKBOX -> QUESTION_CHB_KEYS
+            XitTypes.QUESTION_WORD -> QUESTION_DESC_KEYS
 
             else -> EMPTY_KEYS
         }
+    }
+}
+
+
+/**
+ * TODO: delete (custom attribute key)
+ */
+object ExperimentHighlightValue {
+
+    private val TITLE_WORD = createTextAttributesKey("TITLE WORD", xitTitle())
+
+    /**
+     * used for checking my lex feature development
+     */
+    val SIGNAL_KEYS = arrayOf(ExperimentHighlightValue.TITLE_WORD)
+
+    private fun xitTitle(): TextAttributes {
+        val result = TextAttributes()
+        result.effectType = EffectType.BOLD_LINE_UNDERSCORE
+        result.foregroundColor = Color.WHITE
+        result.backgroundColor = Color.CYAN
+
+        return result
     }
 }
