@@ -55,11 +55,31 @@ priority = [!.]+
 
 %%
 <YYINITIAL> {
-    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION);     return XitTypes.OPEN_CHECKBOX; }
-    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION);    return XitTypes.DONE_CHECKBOX; }
-    ^{ongoingCheckbox}     { yybegin(ONGOING_CHECKBOX_DESCRIPTION);  return XitTypes.ONGOING_CHECKBOX; }
-    ^{obsoleteCheckbox}    { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
-    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
+    ^{openCheckbox}        {
+        yybegin(OPEN_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OPEN_CHECKBOX;
+      }
+    ^{doneCheckbox}        {
+        yybegin(CLOSE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.DONE_CHECKBOX;
+      }
+    ^{ongoingCheckbox}     {
+        yybegin(ONGOING_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.ONGOING_CHECKBOX;
+      }
+    ^{obsoleteCheckbox}    {
+        yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OBSOLETE_CHECKBOX;
+      }
+    ^{questionCheckbox}    {
+        yybegin(QUESTION_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.QUESTION_CHECKBOX;
+      }
 
     {newline}             { return XitTypes.NEWLINE; }
     {trueword}            { yybegin(TITLE); return XitTypes.TITLE_WORD; }
@@ -75,26 +95,56 @@ priority = [!.]+
 <OPEN_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(OPEN_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
     {hashtag}       { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
-    {priority}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.PRIORITY;}
+    {priority}      {
+                    yybegin(OPEN_CHECKBOX_DESCRIPTION);
+                    if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+                    return XitTypes.OCH_WORD;
+                  }
     {trueword}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
     {whitespace}    { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
 }
+
 
 <OPEN_CHECKBOX_DESCRIPTION_END> {
     {newline}              { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
     ^{descIndent}          { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
 
-    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
-    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
-    ^{ongoingCheckbox}     { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
-    ^{obsoleteCheckbox}    { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
-    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
+    ^{openCheckbox}        {
+        yybegin(OPEN_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OPEN_CHECKBOX;
+      }
+    ^{doneCheckbox}        {
+        yybegin(CLOSE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.DONE_CHECKBOX;
+      }
+    ^{ongoingCheckbox}     {
+        yybegin(ONGOING_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.ONGOING_CHECKBOX;
+      }
+    ^{obsoleteCheckbox}    {
+        yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OBSOLETE_CHECKBOX;
+      }
+    ^{questionCheckbox}    {
+        yybegin(QUESTION_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.QUESTION_CHECKBOX;
+      }
 }
 
 
 <CLOSE_CHECKBOX_DESCRIPTION> {
     {newline}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
     {hashtag}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
+    {priority}      {
+        yybegin(CLOSE_CHECKBOX_DESCRIPTION);
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+        return XitTypes.CCH_WORD;
+      }
     {trueword}            { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
     {whitespace}          { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
 }
@@ -103,35 +153,88 @@ priority = [!.]+
     {newline}               { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
     ^{descIndent}          { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
 
-    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
-    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
-    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
-    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
-    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
+    ^{openCheckbox}        {
+        yybegin(OPEN_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OPEN_CHECKBOX;
+      }
+    ^{doneCheckbox}        {
+        yybegin(CLOSE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.DONE_CHECKBOX;
+      }
+    ^{ongoingCheckbox}     {
+        yybegin(ONGOING_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.ONGOING_CHECKBOX;
+      }
+    ^{obsoleteCheckbox}    {
+        yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OBSOLETE_CHECKBOX;
+      }
+    ^{questionCheckbox}    {
+        yybegin(QUESTION_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.QUESTION_CHECKBOX;
+      }
+
 }
 
 
 <ONGOING_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(ONGOING_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
     {hashtag}       { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
+    {priority}      {
+        yybegin(ONGOING_CHECKBOX_DESCRIPTION);
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+        return XitTypes.GCH_WORD;
+      }
     {trueword}      { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
     {whitespace}    { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
+
 }
 
 <ONGOING_CHECKBOX_DESCRIPTION_END> {
     {newline}               { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
     ^{descIndent}          { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
 
-    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
-    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
-    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
-    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
-    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
+    ^{openCheckbox}        {
+        yybegin(OPEN_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OPEN_CHECKBOX;
+      }
+    ^{doneCheckbox}        {
+        yybegin(CLOSE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.DONE_CHECKBOX;
+      }
+    ^{ongoingCheckbox}     {
+        yybegin(ONGOING_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.ONGOING_CHECKBOX;
+      }
+    ^{obsoleteCheckbox}    {
+        yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OBSOLETE_CHECKBOX;
+      }
+    ^{questionCheckbox}    {
+        yybegin(QUESTION_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.QUESTION_CHECKBOX;
+      }
+
 }
 
 
 <OBSOLETE_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
+    {priority}      {
+        yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+        return XitTypes.OBS_WORD;
+      }
     {hashtag}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {trueword}      { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
     {whitespace}    { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
@@ -141,16 +244,42 @@ priority = [!.]+
     {newline}               { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
     ^{descIndent}          { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
 
-    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
-    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
-    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
-    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
-    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
+    ^{openCheckbox}        {
+        yybegin(OPEN_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OPEN_CHECKBOX;
+      }
+    ^{doneCheckbox}        {
+        yybegin(CLOSE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.DONE_CHECKBOX;
+      }
+    ^{ongoingCheckbox}     {
+        yybegin(ONGOING_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.ONGOING_CHECKBOX;
+      }
+    ^{obsoleteCheckbox}    {
+        yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OBSOLETE_CHECKBOX;
+      }
+    ^{questionCheckbox}    {
+        yybegin(QUESTION_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.QUESTION_CHECKBOX;
+      }
+
 }
 
 
 <QUESTION_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; } // group end?
+    {priority}      {
+        yybegin(QUESTION_CHECKBOX_DESCRIPTION);
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+        return XitTypes.QUESTION_WORD;
+      }
     {hashtag}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {trueword}      { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_WORD; }
     {whitespace}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_WORD; }
@@ -161,11 +290,32 @@ priority = [!.]+
     {newline}                { yybegin(YYINITIAL); return XitTypes.GROUP_END; } // group end?
     ^{descIndent}          { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.DESC_INDENT;}
 
-    ^{openCheckbox}        { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OPEN_CHECKBOX; }
-    ^{doneCheckbox}        { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DONE_CHECKBOX; }
-    ^{ongoingCheckbox}        { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.ONGOING_CHECKBOX; }
-    ^{obsoleteCheckbox}        { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_CHECKBOX; }
-    ^{questionCheckbox}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_CHECKBOX; }
+    ^{openCheckbox}        {
+        yybegin(OPEN_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OPEN_CHECKBOX;
+      }
+    ^{doneCheckbox}        {
+        yybegin(CLOSE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.DONE_CHECKBOX;
+      }
+    ^{ongoingCheckbox}     {
+        yybegin(ONGOING_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.ONGOING_CHECKBOX;
+      }
+    ^{obsoleteCheckbox}    {
+        yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.OBSOLETE_CHECKBOX;
+      }
+    ^{questionCheckbox}    {
+        yybegin(QUESTION_CHECKBOX_DESCRIPTION);
+        LexerTool.INSTANCE.setLastCheckboxPlace(zzCurrentPos);
+        return XitTypes.QUESTION_CHECKBOX;
+      }
+
 }
 
 // if undefined token -- then bad character

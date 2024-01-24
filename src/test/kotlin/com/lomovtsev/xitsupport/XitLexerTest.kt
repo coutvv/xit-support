@@ -46,6 +46,11 @@ class XitLexerTest {
             [ ] !!! todo
             [ ] ... todo2
             [ ] ..! other
+            [ ] with_fake_priority !!!
+            [x] !!! other
+            [@] ..! other
+            [?] ..! other
+            [~] ..! other
             
             
         """.trimIndent()
@@ -58,6 +63,11 @@ class XitLexerTest {
             OPEN_CHECKBOX, PRIORITY, OCH_WORD, OCH_WORD, NEWLINE,
             OPEN_CHECKBOX, PRIORITY, OCH_WORD, OCH_WORD, NEWLINE,
             OPEN_CHECKBOX, PRIORITY, OCH_WORD, OCH_WORD, NEWLINE,
+            OPEN_CHECKBOX, OCH_WORD, OCH_WORD, OCH_WORD, NEWLINE,
+            DONE_CHECKBOX, PRIORITY, CCH_WORD, CCH_WORD, NEWLINE,
+            ONGOING_CHECKBOX, PRIORITY, GCH_WORD, GCH_WORD, NEWLINE,
+            QUESTION_CHECKBOX, PRIORITY, QUESTION_WORD, QUESTION_WORD, NEWLINE,
+            OBSOLETE_CHECKBOX, PRIORITY, OBS_WORD, OBS_WORD, NEWLINE,
             GROUP_END
         ), tokens)
     }
@@ -192,11 +202,16 @@ class XitLexerTest {
             val maxSize = if (expected.size > original.size) {
                 expected.size
             } else original.size
+            var lastNotEqualIndex = -1
             for (i in 0..<maxSize) {
                 val exElement = expected.getOrNull(i)?.fullDebugName(expectedElSize) ?: nullName(expectedElSize)
                 val origElement = original.getOrNull(i)?.fullDebugName(originElSize) ?: nullName(originElSize)
-                result.add("$exElement \t <-> \t $origElement")
+                result.add("$i \t $exElement \t <-> \t $origElement")
+                if (exElement != origElement) {
+                    lastNotEqualIndex = i
+                }
             }
+            result.add("\n\n[Last change index]: $lastNotEqualIndex")
 
             result.joinToString(separator = "\n", postfix = "\n\n")
         }
