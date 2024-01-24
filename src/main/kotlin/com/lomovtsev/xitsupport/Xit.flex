@@ -97,7 +97,7 @@ priority = [!.]+
     {hashtag}       { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {priority}      {
                     yybegin(OPEN_CHECKBOX_DESCRIPTION);
-                    if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+                    if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, this.yytext())) { return XitTypes.PRIORITY; }
                     return XitTypes.OCH_WORD;
                   }
     {trueword}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
@@ -140,9 +140,9 @@ priority = [!.]+
 <CLOSE_CHECKBOX_DESCRIPTION> {
     {newline}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
     {hashtag}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
-    {priority}      {
+    {priority}      { // TODO: mb no priority for ready task?
         yybegin(CLOSE_CHECKBOX_DESCRIPTION);
-        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PRIORITY; }
         return XitTypes.CCH_WORD;
       }
     {trueword}            { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
@@ -187,7 +187,7 @@ priority = [!.]+
     {hashtag}       { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {priority}      {
         yybegin(ONGOING_CHECKBOX_DESCRIPTION);
-        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PRIORITY; }
         return XitTypes.GCH_WORD;
       }
     {trueword}      { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
@@ -230,9 +230,9 @@ priority = [!.]+
 
 <OBSOLETE_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
-    {priority}      {
+    {priority}      { // TODO: mb no priority for obsolete task?
         yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
-        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PRIORITY; }
         return XitTypes.OBS_WORD;
       }
     {hashtag}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
@@ -277,7 +277,7 @@ priority = [!.]+
     {newline}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; } // group end?
     {priority}      {
         yybegin(QUESTION_CHECKBOX_DESCRIPTION);
-        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos)) { return XitTypes.PRIORITY; }
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PRIORITY; }
         return XitTypes.QUESTION_WORD;
       }
     {hashtag}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}

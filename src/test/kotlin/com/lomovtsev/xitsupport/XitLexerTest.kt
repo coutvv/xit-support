@@ -51,6 +51,7 @@ class XitLexerTest {
             [@] ..! other
             [?] ..! other
             [~] ..! other
+            [~] .!. wrong_priority
             
             
         """.trimIndent()
@@ -68,6 +69,7 @@ class XitLexerTest {
             ONGOING_CHECKBOX, PRIORITY, GCH_WORD, GCH_WORD, NEWLINE,
             QUESTION_CHECKBOX, PRIORITY, QUESTION_WORD, QUESTION_WORD, NEWLINE,
             OBSOLETE_CHECKBOX, PRIORITY, OBS_WORD, OBS_WORD, NEWLINE,
+            OBSOLETE_CHECKBOX, OBS_WORD, OBS_WORD, OBS_WORD, NEWLINE, // wrong priority is word!
             GROUP_END
         ), tokens)
     }
