@@ -59,6 +59,8 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
                 "Xit Strike Obsolete Description", CodeInsightColors.DEPRECATED_ATTRIBUTES
         )
 
+        val HASHTAG = createTextAttributesKey("Xit Hashtag", DefaultLanguageHighlighterColors.NUMBER)
+
         private val BAD_KEYS = arrayOf(BAD_CHAR)
         private val TITLE_KEYS = arrayOf(TITLE_TEXT)
         private val EMPTY_KEYS = emptyArray<TextAttributesKey>()
@@ -77,6 +79,8 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
 
         private val QUESTION_CHB_KEYS = arrayOf(QUESTION_CHECKBOX)
         private val QUESTION_DESC_KEYS = arrayOf(QUESTION_DESCRIPTION)
+
+        private val HASHTAG_KEYS = arrayOf(HASHTAG)
     }
 
     override fun getHighlightingLexer(): Lexer {
@@ -85,7 +89,7 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
 
     override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> {
         return when (tokenType) {
-            TokenType.BAD_CHARACTER -> Companion.BAD_KEYS
+            TokenType.BAD_CHARACTER -> BAD_KEYS
 
             XitTypes.TITLE_WORD -> TITLE_KEYS
 
@@ -103,6 +107,8 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
 
             XitTypes.QUESTION_CHECKBOX -> QUESTION_CHB_KEYS
             XitTypes.QUESTION_WORD -> QUESTION_DESC_KEYS
+
+            XitTypes.HASHTAG -> HASHTAG_KEYS
 
             else -> EMPTY_KEYS
         }

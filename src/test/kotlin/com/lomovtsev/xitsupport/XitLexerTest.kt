@@ -10,6 +10,59 @@ import java.io.StringReader
 class XitLexerTest {
 
     @Test
+    fun checkXitParsingWithSimpleHashTag() {
+        val input = """
+            title
+            [ ] todo #hashtag last
+            [ ] todo_#hashtag last
+            [x] done #hashtag last
+            [@] ongoing #hashtag last
+            [~] obsolete #hashtag last
+            [?] question #hashtag last
+            
+            
+        """.trimIndent()
+
+        val tokens = readLexTokens(input)
+
+        assertTokenEquals(listOf(
+            TITLE_WORD, NEWLINE,
+            OPEN_CHECKBOX, OCH_WORD, OCH_WORD, HASHTAG, OCH_WORD, OCH_WORD, NEWLINE,
+            OPEN_CHECKBOX, OCH_WORD, HASHTAG, OCH_WORD, OCH_WORD, NEWLINE,
+            DONE_CHECKBOX, CCH_WORD, CCH_WORD, HASHTAG, CCH_WORD, CCH_WORD, NEWLINE,
+            ONGOING_CHECKBOX, GCH_WORD, GCH_WORD, HASHTAG, GCH_WORD, GCH_WORD, NEWLINE,
+            OBSOLETE_CHECKBOX, OBS_WORD, OBS_WORD, HASHTAG, OBS_WORD, OBS_WORD, NEWLINE,
+            QUESTION_CHECKBOX, QUESTION_WORD, QUESTION_WORD, HASHTAG, QUESTION_WORD, QUESTION_WORD, NEWLINE,
+            GROUP_END
+        ), tokens)
+
+    }
+
+    @Test
+    fun testXitParsingWithPriority() {
+        val input = """
+            title
+            [ ] ! todo3
+            [ ] !!! todo 
+            [ ] ... todo2
+            [ ] ..! other todo
+        """.trimIndent()
+    }
+
+    @Test
+    fun testXitParsingWithDueDate() {
+        val input = """
+            title 
+            [ ] todo -> 2023/01/29
+            [ ] todo2 -> 2023-01-29
+            [ ] todo3 -> 2023-01
+            [ ] todo4 -> 2023-Q3
+            [ ] todo5 -> 2023-W05
+            
+        """.trimIndent()
+    }
+
+    @Test
     fun difficultXitParsing() {
         val input = """
             Это title
@@ -132,7 +185,7 @@ class XitLexerTest {
                 result.add("$exElement \t <-> \t $origElement")
             }
 
-            result.joinToString("\n")
+            result.joinToString(separator = "\n", postfix = "\n\n")
         }
     }
 

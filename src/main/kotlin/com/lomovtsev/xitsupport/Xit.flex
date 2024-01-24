@@ -17,7 +17,6 @@ import com.intellij.psi.TokenType;
 %eof{  return;
 %eof}
 
-
 newline              = \r|\n|\r\n
 whitespace           = \s
 
@@ -33,7 +32,8 @@ ongoingCheckbox =  "[@] "
 obsoleteCheckbox = "[~] "
 questionCheckbox = "[?] "
 
-trueword = [^\n\s]+
+trueword = [^\n\s\#]+
+hashtag = ("#" {trueword})
 
 descIndent  = "    "
 emptyLine = []
@@ -73,6 +73,7 @@ emptyLine = []
 
 <OPEN_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(OPEN_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
+    {hashtag}       { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {trueword}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
     {whitespace}    { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
 }
@@ -91,6 +92,7 @@ emptyLine = []
 
 <CLOSE_CHECKBOX_DESCRIPTION> {
     {newline}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
+    {hashtag}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {trueword}            { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
     {whitespace}          { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
 }
@@ -109,6 +111,7 @@ emptyLine = []
 
 <ONGOING_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(ONGOING_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
+    {hashtag}       { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {trueword}      { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
     {whitespace}    { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
 }
@@ -127,6 +130,7 @@ emptyLine = []
 
 <OBSOLETE_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
+    {hashtag}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {trueword}      { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
     {whitespace}    { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
 }
@@ -145,6 +149,7 @@ emptyLine = []
 
 <QUESTION_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; } // group end?
+    {hashtag}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
     {trueword}      { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_WORD; }
     {whitespace}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_WORD; }
 
