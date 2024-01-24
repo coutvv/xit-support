@@ -1,10 +1,11 @@
-package com.lomovtsev.xitsupport
+package com.lomovtsev.xitsupport.highlighting
 
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
+import com.lomovtsev.xitsupport.XitIcons
 import javax.swing.Icon
 
 class XitColorSettingsPage : ColorSettingsPage {

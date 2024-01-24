@@ -1,4 +1,4 @@
-package com.lomovtsev.xitsupport
+package com.lomovtsev.xitsupport.highlighting
 
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributes
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
+import com.lomovtsev.xitsupport.XitLexerAdapter
 import com.lomovtsev.xitsupport.psi.XitTypes
 
 class XitSyntaxHighlighter : SyntaxHighlighterBase() {

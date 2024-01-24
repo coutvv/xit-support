@@ -36,11 +36,8 @@
         />
         <lang.syntaxHighlighterFactory
                 language="XIT"
-                implementationClass="com.lomovtsev.xitsupport.XitSyntaxHighlighterFactory"
+                implementationClass="com.lomovtsev.xitsupport.highlighting.XitSyntaxHighlighterFactory"
         />
-        <colorSettingsPage implementation="com.lomovtsev.xitsupport.XitColorSettingsPage"/>
-<!--        <syntaxHighlighter factoryClass="com.lomovtsev.xitsupport.old.XitSyntaxHighlightProvider"/>-->
-<!--        <editorHighlighterProvider filetype="xit" implementationClass="com.lomovtsev.xitsupport.old.MyHighlightProvider"/>-->
-<!--        <highlightProvider implementationClass="" id="myHighlightProvider" />-->
+        <colorSettingsPage implementation="com.lomovtsev.xitsupport.highlighting.XitColorSettingsPage"/>
     </extensions>
 </idea-plugin>

@@ -1,4 +1,4 @@
-package com.lomovtsev.xitsupport
+package com.lomovtsev.xitsupport.highlighting
 
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
