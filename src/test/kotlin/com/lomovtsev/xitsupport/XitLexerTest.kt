@@ -6,9 +6,32 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.StringReader
 
-@OptIn(ExperimentalStdlibApi::class) // it is not compiled without it
 class XitLexerTest {
 
+    @Test
+    fun testXitParsingWithDueDate() {
+        val input = """
+            title
+            [ ] todo -> 2023/01/29
+            [x] todo2 -> 2023-01-29
+            [@] todo3 -> 2023-01
+            [?] todo4 -> 2023-Q3
+            [~] todo5 -> 2023-W05
+            [ ] todo6 -> 23.01.2023
+        """.trimIndent()
+
+        val tokens = readLexTokens(input)
+
+        assertTokenEquals(listOf(
+            TITLE_WORD, NEWLINE,
+            OPEN_CHECKBOX, OCH_WORD, OCH_WORD, DUE_DATE, NEWLINE,
+            DONE_CHECKBOX, CCH_WORD, CCH_WORD, DUE_DATE, NEWLINE,
+            ONGOING_CHECKBOX, GCH_WORD, GCH_WORD, DUE_DATE, NEWLINE,
+            QUESTION_CHECKBOX, QUESTION_WORD, QUESTION_WORD, DUE_DATE, NEWLINE,
+            OBSOLETE_CHECKBOX, OBS_WORD, OBS_WORD, DUE_DATE, NEWLINE,
+            OPEN_CHECKBOX, OCH_WORD, OCH_WORD, DUE_DATE,
+        ), tokens)
+    }
     @Test
     fun checkXitParsingWithSimpleHashTag() {
         val input = """
@@ -19,8 +42,6 @@ class XitLexerTest {
             [@] ongoing #hashtag last
             [~] obsolete #hashtag last
             [?] question #hashtag last
-            
-            
         """.trimIndent()
 
         val tokens = readLexTokens(input)
@@ -32,8 +53,7 @@ class XitLexerTest {
             DONE_CHECKBOX, CCH_WORD, CCH_WORD, HASHTAG, CCH_WORD, CCH_WORD, NEWLINE,
             ONGOING_CHECKBOX, GCH_WORD, GCH_WORD, HASHTAG, GCH_WORD, GCH_WORD, NEWLINE,
             OBSOLETE_CHECKBOX, OBS_WORD, OBS_WORD, HASHTAG, OBS_WORD, OBS_WORD, NEWLINE,
-            QUESTION_CHECKBOX, QUESTION_WORD, QUESTION_WORD, HASHTAG, QUESTION_WORD, QUESTION_WORD, NEWLINE,
-            GROUP_END
+            QUESTION_CHECKBOX, QUESTION_WORD, QUESTION_WORD, HASHTAG, QUESTION_WORD, QUESTION_WORD,
         ), tokens)
 
     }
@@ -52,8 +72,6 @@ class XitLexerTest {
             [?] ..! other
             [~] ..! other
             [~] .!. wrong_priority
-            
-            
         """.trimIndent()
 
         val tokens = readLexTokens(input)
@@ -69,22 +87,8 @@ class XitLexerTest {
             ONGOING_CHECKBOX, PRIORITY, GCH_WORD, GCH_WORD, NEWLINE,
             QUESTION_CHECKBOX, PRIORITY, QUESTION_WORD, QUESTION_WORD, NEWLINE,
             OBSOLETE_CHECKBOX, PRIORITY, OBS_WORD, OBS_WORD, NEWLINE,
-            OBSOLETE_CHECKBOX, OBS_WORD, OBS_WORD, OBS_WORD, NEWLINE, // wrong priority is word!
-            GROUP_END
+            OBSOLETE_CHECKBOX, OBS_WORD, OBS_WORD, OBS_WORD,  // wrong priority is word!
         ), tokens)
-    }
-
-    @Test
-    fun testXitParsingWithDueDate() {
-        val input = """
-            title 
-            [ ] todo -> 2023/01/29
-            [ ] todo2 -> 2023-01-29
-            [ ] todo3 -> 2023-01
-            [ ] todo4 -> 2023-Q3
-            [ ] todo5 -> 2023-W05
-            
-        """.trimIndent()
     }
 
     @Test
@@ -104,8 +108,6 @@ class XitLexerTest {
             
             other title
             [ ] checkbox
-            
-            
         """.trimIndent()
 
         val tokens = readLexTokens(input)
@@ -127,8 +129,7 @@ class XitLexerTest {
             GROUP_END,
 
             TITLE_WORD, TITLE_WORD, TITLE_WORD, NEWLINE,
-            OPEN_CHECKBOX, OCH_WORD, NEWLINE,
-            GROUP_END
+            OPEN_CHECKBOX, OCH_WORD,
 
         ), tokens)
 
@@ -143,8 +144,6 @@ class XitLexerTest {
                continue
            
            [ ] sample
-           
-           
         """.trimIndent()
 
         val tokens = readLexTokens(input)
@@ -156,8 +155,7 @@ class XitLexerTest {
                 OPEN_CHECKBOX, OCH_WORD, NEWLINE,
                 DESC_INDENT, OCH_WORD, NEWLINE,
                 GROUP_END,
-                OPEN_CHECKBOX, OCH_WORD, NEWLINE,
-                GROUP_END
+                OPEN_CHECKBOX, OCH_WORD,
             ),
             tokens
         )
@@ -205,7 +203,7 @@ class XitLexerTest {
                 expected.size
             } else original.size
             var lastNotEqualIndex = -1
-            for (i in 0..<maxSize) {
+            for (i in 0 until maxSize) {
                 val exElement = expected.getOrNull(i)?.fullDebugName(expectedElSize) ?: nullName(expectedElSize)
                 val origElement = original.getOrNull(i)?.fullDebugName(originElSize) ?: nullName(originElSize)
                 result.add("$i \t $exElement \t <-> \t $origElement")

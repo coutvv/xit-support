@@ -59,18 +59,28 @@ class XitColorSettingsPage : ColorSettingsPage {
     override fun getDemoText(): String {
         return """
             [ ] This is an open item
+                Due date -> 2023/01/29
+                Or due date -> 2023
             [x] This is a checked item
             [@] This is an ongoing item
             [~] This is an obsolete item
             [?] This is an item in question
             
             Group of tasks with title
-            [ ] task 1
-            [x] done task
-            [@] in progress задача 
-            [ ] task with simple #hashtag
+            [ ] ..... task 1
+            [x] !!!.. done task
+                #hashtag #hashtagV2
+            [@] !.... in progress задача 
+            [ ] ....! task with simple #hashtag
             [ ] !!!!! task with priority
-
+            
+            Due date format (actually  you could use any word after arrow)
+            [ ] todo -> 2023/01/29
+            [@] todo2 -> 2023-01-29
+            [?] todo3 -> 2023-01
+            [x] todo4 -> 2023-Q3
+            [~] todo5 -> 2023-W05
+            [ ] todo6 -> 23.01.2023
 
         """.trimIndent()
     }

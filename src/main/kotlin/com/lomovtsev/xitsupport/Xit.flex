@@ -20,11 +20,11 @@ import com.intellij.psi.TokenType;
 newline              = \r|\n|\r\n
 whitespace           = \s
 
-word=[a-zA-Z]+
-space=" "
+//word=[a-zA-Z]+
+//space=" "
 
-digit=[0-9]
-number=digit.*
+//digit=[0-9]
+//number=digit.*
 
 openCheckbox =     "[ ] "
 doneCheckbox =     "[x] "
@@ -37,8 +37,10 @@ titleword = [^\n\s]+
 hashtag = ("#" {trueword})
 
 descIndent  = "    "
-emptyLine = []
+
 priority = [!.]+
+
+dueDate = ("-> " {trueword})
 
 %state TITLE
 
@@ -101,6 +103,7 @@ priority = [!.]+
                     if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, this.yytext())) { return XitTypes.PRIORITY; }
                     return XitTypes.OCH_WORD;
                   }
+    {dueDate}       { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.DUE_DATE; }
     {trueword}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
     {whitespace}    { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
 }
@@ -146,6 +149,7 @@ priority = [!.]+
         if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PRIORITY; }
         return XitTypes.CCH_WORD;
       }
+    {dueDate}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DUE_DATE; }
     {trueword}            { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
     {whitespace}          { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
 }
@@ -191,6 +195,8 @@ priority = [!.]+
         if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PRIORITY; }
         return XitTypes.GCH_WORD;
       }
+
+    {dueDate}       { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.DUE_DATE; }
     {trueword}      { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
     {whitespace}    { yybegin(ONGOING_CHECKBOX_DESCRIPTION); return XitTypes.GCH_WORD; }
 
@@ -237,6 +243,7 @@ priority = [!.]+
         return XitTypes.OBS_WORD;
       }
     {hashtag}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
+    {dueDate}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.DUE_DATE; }
     {trueword}      { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
     {whitespace}    { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
 }
@@ -282,6 +289,7 @@ priority = [!.]+
         return XitTypes.QUESTION_WORD;
       }
     {hashtag}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
+    {dueDate}       { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.DUE_DATE; }
     {trueword}      { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_WORD; }
     {whitespace}    { yybegin(QUESTION_CHECKBOX_DESCRIPTION); return XitTypes.QUESTION_WORD; }
 

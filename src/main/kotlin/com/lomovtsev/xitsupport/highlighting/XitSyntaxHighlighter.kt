@@ -57,11 +57,15 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
         val OBSOLETE_CHECKBOX = createTextAttributesKey("Xit Obsolete Checkbox", PASSIVE_TEXT)
         val OBSOLETE_DESCRIPTION = createTextAttributesKey("Xit Obsolete Description", PASSIVE_TEXT)
         val OBSOLETE_DESCRIPTION_STRIKE = createTextAttributesKey(
-                "Xit Strike Obsolete Description", CodeInsightColors.DEPRECATED_ATTRIBUTES
+            "Xit Strike Obsolete Description", CodeInsightColors.DEPRECATED_ATTRIBUTES
         )
 
         val HASHTAG = createTextAttributesKey("Xit Hashtag", DefaultLanguageHighlighterColors.NUMBER)
         val PRIORITY = createTextAttributesKey("Xit Priority")
+        val DUE_DATE = createTextAttributesKey(
+            "Xit Due Date",
+            DefaultLanguageHighlighterColors.METADATA
+        )
 
         private val BAD_KEYS = arrayOf(BAD_CHAR)
         private val TITLE_KEYS = arrayOf(TITLE_TEXT)
@@ -84,6 +88,7 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
 
         private val HASHTAG_KEYS = arrayOf(HASHTAG)
         private val PRIORITY_KEYS = arrayOf(PRIORITY)
+        private val DUE_DATE_KEYS = arrayOf(DUE_DATE)
     }
 
     override fun getHighlightingLexer(): Lexer {
@@ -105,8 +110,8 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
             XitTypes.ONGOING_CHECKBOX -> ONGOING_CHB_KEYS
             XitTypes.GCH_WORD -> ONGOING_DESC_KEYS
 
-            XitTypes.OBS_WORD -> OBSOLETE_DESC_KEYS
             XitTypes.OBSOLETE_CHECKBOX -> OBSOLETE_CHB_KEYS
+            XitTypes.OBS_WORD -> OBSOLETE_DESC_KEYS
 
             XitTypes.QUESTION_CHECKBOX -> QUESTION_CHB_KEYS
             XitTypes.QUESTION_WORD -> QUESTION_DESC_KEYS
@@ -114,6 +119,7 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
             XitTypes.HASHTAG -> HASHTAG_KEYS
 
             XitTypes.PRIORITY -> PRIORITY_KEYS
+            XitTypes.DUE_DATE -> DUE_DATE_KEYS
 
             else -> EMPTY_KEYS
         }

@@ -35,7 +35,7 @@ point_description ::= (checkbox_word | SPACE | addition_description)+
 addition_description ::= (NEWLINE DESC_INDENT)
 
 checkbox_part ::= (OPEN_CHECKBOX | DONE_CHECKBOX | OBSOLETE_CHECKBOX | ONGOING_CHECKBOX | QUESTION_CHECKBOX)
-checkbox_word ::= (OCH_WORD | CCH_WORD | GCH_WORD | OBS_WORD | QUESTION_WORD | HASHTAG)
+checkbox_word ::= (OCH_WORD | CCH_WORD | GCH_WORD | OBS_WORD | QUESTION_WORD | HASHTAG | DUE_DATE)
 
 //groupSeparator ::= NEWLINE NEWLINE
 
