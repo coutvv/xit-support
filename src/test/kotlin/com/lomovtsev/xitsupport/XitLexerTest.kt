@@ -10,6 +10,54 @@ import java.io.StringReader
 class XitLexerTest {
 
     @Test
+    fun difficultXitParsing() {
+        val input = """
+            Это title
+            [ ] open checkbox
+                continue
+            [x] close чекбокс
+                continue
+            [@] ongoing чекбокс
+                continue
+            [?] question чекбокс
+                continue
+            [~] obsolete чекбокс
+                чекбокс
+            
+            other title
+            [ ] checkbox
+            
+            
+        """.trimIndent()
+
+        val tokens = readLexTokens(input)
+        showTokens(tokens)
+
+        assertTokenEquals(listOf(
+            TITLE_WORD, TITLE_WORD, TITLE_WORD, NEWLINE,
+
+            OPEN_CHECKBOX, OCH_WORD, OCH_WORD, OCH_WORD, NEWLINE,
+            DESC_INDENT, OCH_WORD, NEWLINE,
+            DONE_CHECKBOX, CCH_WORD, CCH_WORD, CCH_WORD, NEWLINE, // 2nd cch_word is space
+            DESC_INDENT, CCH_WORD, NEWLINE,
+            ONGOING_CHECKBOX, GCH_WORD, GCH_WORD, GCH_WORD, NEWLINE,
+            DESC_INDENT, GCH_WORD, NEWLINE,
+            QUESTION_CHECKBOX, QUESTION_WORD, QUESTION_WORD, QUESTION_WORD, NEWLINE,
+            DESC_INDENT, QUESTION_WORD, NEWLINE,
+            OBSOLETE_CHECKBOX, OBS_WORD, OBS_WORD, OBS_WORD, NEWLINE,
+            DESC_INDENT, OBS_WORD, NEWLINE,
+            GROUP_END,
+
+            TITLE_WORD, TITLE_WORD, TITLE_WORD, NEWLINE,
+            OPEN_CHECKBOX, OCH_WORD, NEWLINE,
+            GROUP_END
+
+        ), tokens)
+
+
+    }
+
+    @Test
     fun sampleXitParsing() {
         val input = """
            title
@@ -20,12 +68,8 @@ class XitLexerTest {
            
            
         """.trimIndent()
-        println(input)
-        val lexer = XitLexer(StringReader(input))
-        lexer.reset(input, 0, input.length, 0)
 
-
-        val tokens = readTokens(lexer)
+        val tokens = readLexTokens(input)
         showTokens(tokens)
 
         assertTokenEquals(
@@ -50,6 +94,12 @@ class XitLexerTest {
 
         }
         return result
+    }
+
+    private fun readLexTokens(input: String): List<IElementType> {
+        val lexer = XitLexer(StringReader(input))
+        lexer.reset(input, 0, input.length, 0)
+        return readTokens(lexer)
     }
 
     /**
