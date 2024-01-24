@@ -8,13 +8,15 @@
     <name>Xit Support</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="coutvv@gmail.com" url="https://lomovtsev.com">Lomovtsev Roman</vendor>
+    <vendor email="coutvv@gmail.com" url="https://lomovtsev.com">Roman Lomovtsev</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Sample plugin for highlighting <a href="https://xit.jotaen.net">[x]it files</a>.<br>
+    Simple plugin for highlighting <a href="https://xit.jotaen.net">[x]it! files</a>.<br>
+
+    [x]it! is a plain-text file format for todos and check lists.
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
