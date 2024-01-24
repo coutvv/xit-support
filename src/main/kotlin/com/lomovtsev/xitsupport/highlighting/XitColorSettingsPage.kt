@@ -33,6 +33,7 @@ class XitColorSettingsPage : ColorSettingsPage {
         AttributesDescriptor("Obsolete description strike", XitSyntaxHighlighter.OBSOLETE_DESCRIPTION_STRIKE),
 
         AttributesDescriptor("Hashtag", XitSyntaxHighlighter.HASHTAG),
+        AttributesDescriptor("Priority", XitSyntaxHighlighter.PRIORITY),
 
     )
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> {
@@ -68,6 +69,7 @@ class XitColorSettingsPage : ColorSettingsPage {
             [x] done task
             [@] in progress задача 
             [ ] task with simple #hashtag
+            [ ] !!!!! task with priority
 
 
         """.trimIndent()

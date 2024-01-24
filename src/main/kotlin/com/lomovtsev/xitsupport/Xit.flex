@@ -37,6 +37,7 @@ hashtag = ("#" {trueword})
 
 descIndent  = "    "
 emptyLine = []
+priority = [!.]+
 
 %state TITLE
 
@@ -74,6 +75,7 @@ emptyLine = []
 <OPEN_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(OPEN_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
     {hashtag}       { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
+    {priority}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.PRIORITY;}
     {trueword}      { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
     {whitespace}    { yybegin(OPEN_CHECKBOX_DESCRIPTION); return XitTypes.OCH_WORD; }
 }

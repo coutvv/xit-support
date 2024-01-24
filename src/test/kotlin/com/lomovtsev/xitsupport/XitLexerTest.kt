@@ -43,10 +43,23 @@ class XitLexerTest {
         val input = """
             title
             [ ] ! todo3
-            [ ] !!! todo 
+            [ ] !!! todo
             [ ] ... todo2
-            [ ] ..! other todo
+            [ ] ..! other
+            
+            
         """.trimIndent()
+
+        val tokens = readLexTokens(input)
+
+        assertTokenEquals(listOf(
+            TITLE_WORD, NEWLINE,
+            OPEN_CHECKBOX, PRIORITY, OCH_WORD, OCH_WORD, NEWLINE,
+            OPEN_CHECKBOX, PRIORITY, OCH_WORD, OCH_WORD, NEWLINE,
+            OPEN_CHECKBOX, PRIORITY, OCH_WORD, OCH_WORD, NEWLINE,
+            OPEN_CHECKBOX, PRIORITY, OCH_WORD, OCH_WORD, NEWLINE,
+            GROUP_END
+        ), tokens)
     }
 
     @Test

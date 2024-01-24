@@ -61,6 +61,7 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
         )
 
         val HASHTAG = createTextAttributesKey("Xit Hashtag", DefaultLanguageHighlighterColors.NUMBER)
+        val PRIORITY = createTextAttributesKey("Xit Priority")
 
         private val BAD_KEYS = arrayOf(BAD_CHAR)
         private val TITLE_KEYS = arrayOf(TITLE_TEXT)
@@ -82,6 +83,7 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
         private val QUESTION_DESC_KEYS = arrayOf(QUESTION_DESCRIPTION)
 
         private val HASHTAG_KEYS = arrayOf(HASHTAG)
+        private val PRIORITY_KEYS = arrayOf(PRIORITY)
     }
 
     override fun getHighlightingLexer(): Lexer {
@@ -110,6 +112,8 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
             XitTypes.QUESTION_WORD -> QUESTION_DESC_KEYS
 
             XitTypes.HASHTAG -> HASHTAG_KEYS
+
+            XitTypes.PRIORITY -> PRIORITY_KEYS
 
             else -> EMPTY_KEYS
         }
