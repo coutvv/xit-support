@@ -1,7 +1,11 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.21"
     id("org.jetbrains.intellij") version "1.16.1"
+
+    id("org.jetbrains.grammarkit") version "2022.3.2.1"
 }
 
 group = "com.lomovtsev"
@@ -26,8 +30,10 @@ tasks {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+
+    withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
+        dependsOn(generateLexer, generateParser)
     }
 
     patchPluginXml {
@@ -48,6 +54,22 @@ tasks {
     test {
         useJUnitPlatform()
     }
+
+    generateLexer {
+        sourceFile = file("src/main/kotlin/com/lomovtsev/xitsupport/Xit.flex")
+        targetDir.set("src/main/gen/com/lomovtsev/xitsupport")
+        targetClass.set("XitLexer")
+        purgeOldFiles.set(true)
+    }
+
+    generateParser {
+        sourceFile = file("src/main/kotlin/com/lomovtsev/xitsupport/Xit.bnf")
+        targetRoot.set("src/main/gen")
+
+        pathToParser.set("XitParser.java")
+        pathToPsiRoot.set("com/lomovtsev/xitsupport/psi")
+        purgeOldFiles.set(true)
+    }
 }
 
 sourceSets["main"].java.srcDirs("src/main/gen")
@@ -59,4 +81,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.2.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.2.0")
     testRuntimeOnly("org.junit.platform:junit-platform-console:1.2.0")
+}
+
+grammarKit {
+    jflexRelease.set("1.7.0-1")
+    grammarKitRelease.set("2021.1.2")
+    intellijRelease.set("203.7717.81")
 }
