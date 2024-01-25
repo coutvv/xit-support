@@ -30,12 +30,14 @@ private item_ ::= (xitGroup | NEWLINE)
 xitGroup ::= (title points GROUP_END) | (points GROUP_END) | (points) | (title)
 title ::= (TITLE_WORD | SPACE)+ NEWLINE
 points ::= point+
-point ::= (checkbox_part PRIORITY? point_description NEWLINE)
+point ::= (checkbox_part priority_keyword? point_description NEWLINE)
 point_description ::= (checkbox_word | SPACE | addition_description)+
 addition_description ::= (NEWLINE DESC_INDENT)
 
 checkbox_part ::= (OPEN_CHECKBOX | DONE_CHECKBOX | OBSOLETE_CHECKBOX | ONGOING_CHECKBOX | QUESTION_CHECKBOX)
-checkbox_word ::= (OCH_WORD | CCH_WORD | GCH_WORD | OBS_WORD | QUESTION_WORD | HASHTAG | DUE_DATE)
+checkbox_word ::= (OCH_WORD | CCH_WORD | GCH_WORD | OBS_WORD | QUESTION_WORD | {checkbox_keyword})
+checkbox_keyword ::= (HASHTAG | DUE_DATE | PASSIVE_HASHTAG | PASSIVE_DUE_DATE | OBSOLETE_DUE_DATE | OBSOLETE_HASHTAG)
+priority_keyword ::= PRIORITY | PASSIVE_PRIORITY | OBSOLETE_PRIORITY
 
 //groupSeparator ::= NEWLINE NEWLINE
 

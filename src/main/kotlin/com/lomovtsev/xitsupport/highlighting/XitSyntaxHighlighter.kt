@@ -67,6 +67,14 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
             DefaultLanguageHighlighterColors.METADATA
         )
 
+        val DONE_HASHTAG = createTextAttributesKey("Xit Done Hashtag", HASHTAG)
+        val DONE_PRIORITY = createTextAttributesKey("Xit Done Priority", PASSIVE_TEXT)
+        val DONE_DUE_DATE = createTextAttributesKey("Xit Done Due Date", PASSIVE_TEXT)
+
+        val OBSOLETE_HASHTAG = createTextAttributesKey("Xit Obsolete Hashtag", HASHTAG)
+        val OBSOLETE_PRIORITY = createTextAttributesKey("Xit Obsolete Priority", PASSIVE_TEXT)
+        val OBSOLETE_DUE_DATE = createTextAttributesKey("Xit Obsolete Due Date", PASSIVE_TEXT)
+
         private val BAD_KEYS = arrayOf(BAD_CHAR)
         private val TITLE_KEYS = arrayOf(TITLE_TEXT)
         private val EMPTY_KEYS = emptyArray<TextAttributesKey>()
@@ -89,6 +97,14 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
         private val HASHTAG_KEYS = arrayOf(HASHTAG)
         private val PRIORITY_KEYS = arrayOf(PRIORITY)
         private val DUE_DATE_KEYS = arrayOf(DUE_DATE)
+
+        private val PASSIVE_HASHTAG_KEYS = arrayOf(DONE_HASHTAG)
+        private val PASSIVE_PRIORITY_KEYS = arrayOf(DONE_PRIORITY)
+        private val PASSIVE_DUE_DATE_KEYS = arrayOf(DONE_DUE_DATE)
+
+        private val OBSOLETE_HASHTAG_KEYS = arrayOf(OBSOLETE_HASHTAG, OBSOLETE_DESCRIPTION_STRIKE)
+        private val OBSOLETE_PRIORITY_KEYS = arrayOf(OBSOLETE_PRIORITY, OBSOLETE_DESCRIPTION_STRIKE)
+        private val OBSOLETE_DUE_DATE_KEYS = arrayOf(OBSOLETE_DUE_DATE, OBSOLETE_DESCRIPTION_STRIKE)
     }
 
     override fun getHighlightingLexer(): Lexer {
@@ -117,9 +133,16 @@ class XitSyntaxHighlighter : SyntaxHighlighterBase() {
             XitTypes.QUESTION_WORD -> QUESTION_DESC_KEYS
 
             XitTypes.HASHTAG -> HASHTAG_KEYS
-
             XitTypes.PRIORITY -> PRIORITY_KEYS
             XitTypes.DUE_DATE -> DUE_DATE_KEYS
+
+            XitTypes.PASSIVE_HASHTAG -> PASSIVE_HASHTAG_KEYS
+            XitTypes.PASSIVE_PRIORITY -> PASSIVE_PRIORITY_KEYS
+            XitTypes.PASSIVE_DUE_DATE -> PASSIVE_DUE_DATE_KEYS
+
+            XitTypes.OBSOLETE_HASHTAG -> OBSOLETE_HASHTAG_KEYS
+            XitTypes.OBSOLETE_PRIORITY -> OBSOLETE_PRIORITY_KEYS
+            XitTypes.OBSOLETE_DUE_DATE -> OBSOLETE_DUE_DATE_KEYS
 
             else -> EMPTY_KEYS
         }

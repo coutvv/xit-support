@@ -34,8 +34,17 @@ class XitColorSettingsPage : ColorSettingsPage {
 
         AttributesDescriptor("Hashtag", XitSyntaxHighlighter.HASHTAG),
         AttributesDescriptor("Priority", XitSyntaxHighlighter.PRIORITY),
+        AttributesDescriptor("Due date", XitSyntaxHighlighter.DUE_DATE),
 
+        AttributesDescriptor("Done hashtag", XitSyntaxHighlighter.DONE_HASHTAG),
+        AttributesDescriptor("Done priority", XitSyntaxHighlighter.DONE_PRIORITY),
+        AttributesDescriptor("Done due date", XitSyntaxHighlighter.DONE_DUE_DATE),
+
+        AttributesDescriptor("Obsolete hashtag", XitSyntaxHighlighter.OBSOLETE_HASHTAG),
+        AttributesDescriptor("Obsolete priority", XitSyntaxHighlighter.OBSOLETE_PRIORITY),
+        AttributesDescriptor("Obsolete due date", XitSyntaxHighlighter.OBSOLETE_DUE_DATE),
     )
+
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> {
         return attributesDescriptors
     }

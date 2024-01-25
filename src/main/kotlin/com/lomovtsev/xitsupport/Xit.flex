@@ -143,13 +143,13 @@ dueDate = ("-> " {trueword})
 
 <CLOSE_CHECKBOX_DESCRIPTION> {
     {newline}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
-    {hashtag}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
-    {priority}      { // TODO: mb no priority for ready task?
+    {hashtag}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.PASSIVE_HASHTAG;}
+    {priority}      {
         yybegin(CLOSE_CHECKBOX_DESCRIPTION);
-        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PRIORITY; }
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PASSIVE_PRIORITY; }
         return XitTypes.CCH_WORD;
       }
-    {dueDate}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.DUE_DATE; }
+    {dueDate}             { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.PASSIVE_DUE_DATE; }
     {trueword}            { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
     {whitespace}          { yybegin(CLOSE_CHECKBOX_DESCRIPTION); return XitTypes.CCH_WORD; }
 }
@@ -237,13 +237,13 @@ dueDate = ("-> " {trueword})
 
 <OBSOLETE_CHECKBOX_DESCRIPTION> {
     {newline}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION_END); return XitTypes.NEWLINE; }
-    {priority}      { // TODO: mb no priority for obsolete task?
+    {priority}      {
         yybegin(OBSOLETE_CHECKBOX_DESCRIPTION);
-        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.PRIORITY; }
+        if (LexerTool.INSTANCE.isPriorityToken(zzCurrentPos, yytext())) { return XitTypes.OBSOLETE_PRIORITY; }
         return XitTypes.OBS_WORD;
       }
-    {hashtag}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.HASHTAG;}
-    {dueDate}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.DUE_DATE; }
+    {hashtag}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_HASHTAG;}
+    {dueDate}       { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBSOLETE_DUE_DATE; }
     {trueword}      { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
     {whitespace}    { yybegin(OBSOLETE_CHECKBOX_DESCRIPTION); return XitTypes.OBS_WORD; }
 }
