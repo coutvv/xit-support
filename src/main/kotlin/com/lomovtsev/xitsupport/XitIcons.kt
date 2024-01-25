@@ -7,7 +7,7 @@ import javax.swing.Icon
 class XitIcons {
     companion object {
 
-        val FILE: Icon = getIcon("/icons/jar-gray.png", XitIcons::class.java)
+        val FILE: Icon = getIcon("/icons/betterIcon.svg", XitIcons::class.java)
     }
 
 }
