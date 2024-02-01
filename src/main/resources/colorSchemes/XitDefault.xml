@@ -1,13 +1,13 @@
 <?xml version='1.0'?>
 <list>
 
-    <option name="Xit Priority">
+    <option name="XIT_PRIORITY">
         <value>
-            <option name="FOREGROUND" value="FF0000" />
+            <option name="FOREGROUND" value="FF00FF" />
         </value>
     </option>
 
-    <option name="Xit Obsolete Checkbox">
+    <option name="XIT_OBSOLETE_CHECKBOX">
         <value>
             <option name="FONT_TYPE" value="1"/>
         </value>

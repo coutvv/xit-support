@@ -14,66 +14,67 @@ import com.lomovtsev.xitsupport.psi.XitTypes
 
 class XitSyntaxHighlighter : SyntaxHighlighterBase() {
     companion object {
-        val BAD_CHAR = createTextAttributesKey("Xit Bad Character", HighlighterColors.BAD_CHARACTER)
+        val BAD_CHAR = createTextAttributesKey("XIT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
 
-        val ACTIVE_TEXT = createTextAttributesKey("Xit Active Text", DefaultLanguageHighlighterColors.CLASS_NAME)
-        val PASSIVE_TEXT = createTextAttributesKey("Xit Passive Text", DefaultLanguageHighlighterColors.LINE_COMMENT)
+        val ACTIVE_TEXT = createTextAttributesKey("XIT_ACTIVE_TEXT", DefaultLanguageHighlighterColors.CLASS_NAME)
+        val PASSIVE_TEXT = createTextAttributesKey("XIT_PASSIVE_TEXT", DefaultLanguageHighlighterColors.LINE_COMMENT)
 
-        val TITLE_TEXT = createTextAttributesKey("Xit Title Text", CodeInsightColors.HYPERLINK_ATTRIBUTES)
+        val TITLE_TEXT = createTextAttributesKey("XIT_TITLE_TEXT", CodeInsightColors.HYPERLINK_ATTRIBUTES)
 
         val OPEN_CHECKBOX = createTextAttributesKey(
-            "Xit Open Checkbox",
+            "XIT_OPEN_CHECKBOX",
             DefaultLanguageHighlighterColors.NUMBER
         )
         val OPEN_DESCRIPTION = createTextAttributesKey(
-            "Xit Open Description",
+            "XIT_OPEN_DESCRIPTION",
             ACTIVE_TEXT
         )
 
         val DONE_CHECKBOX = createTextAttributesKey("Xit Done Checkbox", DefaultLanguageHighlighterColors.STRING)
         val DONE_DESCRIPTION = createTextAttributesKey(
-            "Xit Done Description",
+            "XIT_DONE_DESCRIPTION",
             PASSIVE_TEXT
         )
 
         val ONGOING_CHECKBOX = createTextAttributesKey(
-            "Xit Ongoing Checkbox",
+            "XIT_ONGOING_CHECKBOX",
             DefaultLanguageHighlighterColors.INSTANCE_FIELD
         )
         val ONGOING_DESCRIPTION = createTextAttributesKey(
-            "Xit Ongoing Description",
+            "XIT_ONGOING_DESCRIPTION",
             ACTIVE_TEXT
         )
 
         val QUESTION_CHECKBOX = createTextAttributesKey(
-            "Xit Question Checkbox",
+            "XIT_QUESTION_CHECKBOX",
             DefaultLanguageHighlighterColors.METADATA
         )
         val QUESTION_DESCRIPTION = createTextAttributesKey(
-            "Xit Question Description",
+            "XIT_QUESTION_DESCRIPTION",
             ACTIVE_TEXT
         )
 
-        val OBSOLETE_CHECKBOX = createTextAttributesKey("Xit Obsolete Checkbox", PASSIVE_TEXT)
-        val OBSOLETE_DESCRIPTION = createTextAttributesKey("Xit Obsolete Description", PASSIVE_TEXT)
+        val OBSOLETE_CHECKBOX = createTextAttributesKey("XIT_OBSOLETE_CHECKBOX", PASSIVE_TEXT)
+        val OBSOLETE_DESCRIPTION = createTextAttributesKey("XIT_OBSOLETE_DESCRIPTION", PASSIVE_TEXT)
         val OBSOLETE_DESCRIPTION_STRIKE = createTextAttributesKey(
-            "Xit Strike Obsolete Description", CodeInsightColors.DEPRECATED_ATTRIBUTES
+            "XIT_STRIKE_OBSOLETE_DESCRIPTION", CodeInsightColors.DEPRECATED_ATTRIBUTES
         )
 
-        val HASHTAG = createTextAttributesKey("Xit Hashtag", DefaultLanguageHighlighterColors.NUMBER)
-        val PRIORITY = createTextAttributesKey("Xit Priority")
+        val HASHTAG = createTextAttributesKey("XIT_HASHTAG", DefaultLanguageHighlighterColors.NUMBER)
+        val PRIORITY = createTextAttributesKey("XIT_PRIORITY")
         val DUE_DATE = createTextAttributesKey(
-            "Xit Due Date",
+            "XIT_DUE_DATE",
             DefaultLanguageHighlighterColors.METADATA
         )
 
-        val DONE_HASHTAG = createTextAttributesKey("Xit Done Hashtag", HASHTAG)
-        val DONE_PRIORITY = createTextAttributesKey("Xit Done Priority", PASSIVE_TEXT)
-        val DONE_DUE_DATE = createTextAttributesKey("Xit Done Due Date", PASSIVE_TEXT)
+        val DONE_HASHTAG = createTextAttributesKey("XIT_DONE_HASHTAG", HASHTAG)
+        val DONE_PRIORITY = createTextAttributesKey("XIT_DONE_PRIORITY", PASSIVE_TEXT)
+        val DONE_DUE_DATE = createTextAttributesKey("XIT_DONE_DUE_DATE", PASSIVE_TEXT)
 
-        val OBSOLETE_HASHTAG = createTextAttributesKey("Xit Obsolete Hashtag", HASHTAG)
-        val OBSOLETE_PRIORITY = createTextAttributesKey("Xit Obsolete Priority", PASSIVE_TEXT)
-        val OBSOLETE_DUE_DATE = createTextAttributesKey("Xit Obsolete Due Date", PASSIVE_TEXT)
+        val OBSOLETE_HASHTAG = createTextAttributesKey("XIT_OBSOLETE_HASHTAG", HASHTAG)
+        val OBSOLETE_PRIORITY = createTextAttributesKey("XIT_OBSOLETE_PRIORITY", PASSIVE_TEXT)
+        val OBSOLETE_DUE_DATE = createTextAttributesKey("XIT_OBSOLETE_DUE_DATE", PASSIVE_TEXT)
+
 
         private val BAD_KEYS = arrayOf(BAD_CHAR)
         private val TITLE_KEYS = arrayOf(TITLE_TEXT)

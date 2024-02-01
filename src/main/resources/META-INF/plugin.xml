@@ -43,7 +43,5 @@
         />
         <colorSettingsPage implementation="com.lomovtsev.xitsupport.highlighting.XitColorSettingsPage"/>
         <additionalTextAttributes scheme="Default" file="colorSchemes/XitDefault.xml"/>
-        <additionalTextAttributes scheme="Darcula" file="colorSchemes/XitDarcula.xml"/>
-        <additionalTextAttributes scheme="Dark" file="colorSchemes/XitDefault.xml"/>
     </extensions>
 </idea-plugin>
