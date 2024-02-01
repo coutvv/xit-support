@@ -47,3 +47,5 @@ certificate/*
 .idea/*
 /idea-flex.skeleton
 /jflex-1.9.1.jar
+gradle/*
+.run/
