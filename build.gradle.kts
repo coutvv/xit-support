@@ -9,7 +9,10 @@ plugins {
 }
 
 group = "com.lomovtsev"
-version = "1.0.1"
+version = "1.0.2"
+
+val junitVersion = "5.11.2"
+val junitPlatformConsoleVersion = "1.11.2"
 
 repositories {
     mavenCentral()
@@ -38,7 +41,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("231")
-        untilBuild.set("242.*")
+        untilBuild.set("243.*")
     }
 
     signPlugin {
@@ -78,9 +81,9 @@ sourceSets["main"].java.srcDirs("src/main/gen")
 dependencies {
 
     // JUnit 5
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.2.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.2.0")
-    testRuntimeOnly("org.junit.platform:junit-platform-console:1.2.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-console:$junitPlatformConsoleVersion")
 }
 
 grammarKit {
