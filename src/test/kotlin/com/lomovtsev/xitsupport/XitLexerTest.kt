@@ -32,8 +32,9 @@ class XitLexerTest {
             OPEN_CHECKBOX, OCH_WORD, OCH_WORD, DUE_DATE,
         ), tokens)
     }
+
     @Test
-    fun checkXitParsingWithSimpleHashTag() {
+    fun testXitParsingWithHashtags() {
         val input = """
             title
             [ ] todo #hashtag last
@@ -55,7 +56,6 @@ class XitLexerTest {
             OBSOLETE_CHECKBOX, OBS_WORD, OBS_WORD, OBSOLETE_HASHTAG, OBS_WORD, OBS_WORD, NEWLINE,
             QUESTION_CHECKBOX, QUESTION_WORD, QUESTION_WORD, HASHTAG, QUESTION_WORD, QUESTION_WORD,
         ), tokens)
-
     }
 
     @Test

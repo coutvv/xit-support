@@ -23,9 +23,11 @@ object LexerTool {
         var symbolChanged = false
         val nextSymbol = if (startSymbol == '!') '.' else '!'
         for (i: Int in 1 until priority.length) {
+            val sym = priority[i]
             when {
-                symbolChanged && priority[i] == startSymbol -> return false
-                !symbolChanged && priority[i] == nextSymbol -> symbolChanged = true
+                symbolChanged && sym == startSymbol -> return false
+                !symbolChanged && sym == nextSymbol -> symbolChanged = true
+                sym != startSymbol && sym != nextSymbol -> return false // other symbols
             }
         }
         return true

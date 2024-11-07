@@ -13,10 +13,21 @@ class LexerToolTest {
         assertTrue(LexerTool.isPriorityValid("!!!"))
         assertTrue(LexerTool.isPriorityValid("..!"))
         assertTrue(LexerTool.isPriorityValid("!.."))
+        assertTrue(LexerTool.isPriorityValid("!"))
+        assertTrue(LexerTool.isPriorityValid(".."))
+        assertTrue(LexerTool.isPriorityValid("!!!!"))
+        assertTrue(LexerTool.isPriorityValid("...!"))
+
         assertFalse(LexerTool.isPriorityValid(".!."))
         assertFalse(LexerTool.isPriorityValid(".!!!.!!."))
         assertFalse(LexerTool.isPriorityValid("!!!.!!"))
         assertFalse(LexerTool.isPriorityValid(".!!!.!!"))
         assertFalse(LexerTool.isPriorityValid(""))
+        assertFalse(LexerTool.isPriorityValid("!.!"))
+        assertFalse(LexerTool.isPriorityValid(".!..!"))
+        assertFalse(LexerTool.isPriorityValid("abc"))
+        assertFalse(LexerTool.isPriorityValid(" .!"))
+        assertFalse(LexerTool.isPriorityValid(".! "))
     }
+
 }
