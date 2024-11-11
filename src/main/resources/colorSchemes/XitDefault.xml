@@ -3,13 +3,8 @@
 
     <option name="XIT_PRIORITY">
         <value>
-            <option name="FOREGROUND" value="FF00FF" />
+            <option name="FOREGROUND" value="FF0000" />
         </value>
     </option>
 
-    <option name="XIT_OBSOLETE_CHECKBOX">
-        <value>
-            <option name="FONT_TYPE" value="1"/>
-        </value>
-    </option>
 </list>

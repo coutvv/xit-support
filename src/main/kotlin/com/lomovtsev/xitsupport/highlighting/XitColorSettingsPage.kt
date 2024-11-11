@@ -82,6 +82,7 @@ class XitColorSettingsPage : ColorSettingsPage {
             [@] !.... in progress задача 
             [ ] ....! task with simple #hashtag
             [ ] !!!!! task with priority
+            [~] !!! Obsolete priority
             
             Due date format (actually  you could use any word after arrow)
             [ ] todo -> 2023/01/29
