@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.lomovtsev"
-version = "1.0.5"
+version = "1.0.6"
 
 val junitVersion = "5.11.2"
 val junitPlatformConsoleVersion = "1.11.2"
@@ -41,7 +41,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("231")
-        untilBuild.set("253.*")
+        untilBuild.set("261.*")
     }
 
     signPlugin {
