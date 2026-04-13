@@ -3,9 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.21"
-    id("org.jetbrains.intellij") version "1.16.1"
-
-    id("org.jetbrains.grammarkit") version "2022.3.2.1"
+    id("org.jetbrains.intellij.platform") version "2.14.0"
+    id("org.jetbrains.grammarkit") version "2022.3.2.2"
 }
 
 group = "com.lomovtsev"
@@ -16,15 +15,28 @@ val junitPlatformConsoleVersion = "1.11.2"
 
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    version.set("2023.1.5")
-    type.set("IC") // Target IDE Platform
+intellijPlatform {
+    pluginConfiguration {
+        ideaVersion {
+            sinceBuild = "231"
+            untilBuild = "261.*"
+        }
+    }
 
-    plugins.set(listOf(/* Plugin Dependencies */))
+    signing {
+        certificateChainFile = file("certificate/chain.crt")
+        privateKeyFile = file("certificate/private.pem")
+        password = System.getenv("PRIVATE_KEY_PASSWORD")
+    }
+
+    publishing {
+        token = System.getenv("PUBLISH_TOKEN")
+    }
 }
 
 tasks {
@@ -39,36 +51,19 @@ tasks {
         dependsOn(generateLexer, generateParser)
     }
 
-    patchPluginXml {
-        sinceBuild.set("231")
-        untilBuild.set("261.*")
-    }
-
-    signPlugin {
-        certificateChainFile.set(file("certificate/chain.crt"))
-        privateKeyFile.set(file("certificate/private.pem"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
-    }
-
-    publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
-    }
-
     test {
         useJUnitPlatform()
     }
 
     generateLexer {
-        sourceFile = file("src/main/kotlin/com/lomovtsev/xitsupport/Xit.flex")
-        targetDir.set("src/main/gen/com/lomovtsev/xitsupport")
-        targetClass.set("XitLexer")
+        sourceFile.set(file("src/main/kotlin/com/lomovtsev/xitsupport/Xit.flex"))
+        targetOutputDir.set(file("src/main/gen/com/lomovtsev/xitsupport"))
         purgeOldFiles.set(true)
     }
 
     generateParser {
-        sourceFile = file("src/main/kotlin/com/lomovtsev/xitsupport/Xit.bnf")
-        targetRoot.set("src/main/gen")
-
+        sourceFile.set(file("src/main/kotlin/com/lomovtsev/xitsupport/Xit.bnf"))
+        targetRootOutputDir.set(file("src/main/gen"))
         pathToParser.set("XitParser.java")
         pathToPsiRoot.set("com/lomovtsev/xitsupport/psi")
         purgeOldFiles.set(true)
@@ -77,8 +72,10 @@ tasks {
 
 sourceSets["main"].java.srcDirs("src/main/gen")
 
-
 dependencies {
+    intellijPlatform {
+        create("IC", "2023.1.5")
+    }
 
     // JUnit 5
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
