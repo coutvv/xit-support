@@ -23,7 +23,7 @@ repositories {
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "231"
+            sinceBuild = "233"
             untilBuild = "261.*"
         }
     }
@@ -74,7 +74,7 @@ sourceSets["main"].java.srcDirs("src/main/gen")
 
 dependencies {
     intellijPlatform {
-        create("IC", "2023.1.5")
+        create("IC", "2023.3")
     }
 
     // JUnit 5
