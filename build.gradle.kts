@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.lomovtsev"
-version = "1.1.0"
+version = "1.2.0"
 
 val junitVersion = "5.11.2"
 val junitPlatformConsoleVersion = "1.11.2"
