@@ -42,6 +42,9 @@
                 implementationClass="com.lomovtsev.xitsupport.highlighting.XitSyntaxHighlighterFactory"
         />
         <colorSettingsPage implementation="com.lomovtsev.xitsupport.highlighting.XitColorSettingsPage"/>
+        <spellchecker.support
+                language="XIT"
+                implementationClass="com.lomovtsev.xitsupport.spellchecker.XitSpellcheckingStrategy"/>
         <additionalTextAttributes scheme="Default" file="colorSchemes/XitDefault.xml"/>
         <additionalTextAttributes scheme="Dark" file="colorSchemes/XitDefault.xml"/>
     </extensions>
