@@ -47,5 +47,7 @@
                 implementationClass="com.lomovtsev.xitsupport.spellchecker.XitSpellcheckingStrategy"/>
         <additionalTextAttributes scheme="Default" file="colorSchemes/XitDefault.xml"/>
         <additionalTextAttributes scheme="Dark" file="colorSchemes/XitDefault.xml"/>
+        <lang.foldingBuilder language="XIT"
+                implementationClass="com.lomovtsev.xitsupport.folding.XitFoldingBuilder"/>
     </extensions>
 </idea-plugin>
