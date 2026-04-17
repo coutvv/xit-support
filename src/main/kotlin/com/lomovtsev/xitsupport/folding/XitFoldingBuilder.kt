@@ -16,18 +16,20 @@ class XitFoldingBuilder : FoldingBuilderEx() {
         val groups = PsiTreeUtil.findChildrenOfType(root, XitXitGroup::class.java)
 
         for (group in groups) {
-            if (group.points == null) {
-                continue
-            }
+            val points = group.points ?: continue
+            val title = group.title ?: continue
 
-            val startOffset = group.textRange.startOffset
-            var endOffset = group.textRange.endOffset
+            // Start fold at the title's trailing newline so the gutter arrow
+            // appears on the title line (like markdown section headers).
+            // Title grammar: (TITLE_WORD | SPACE)+ NEWLINE — last char is '\n'.
+            val startOffset = title.textRange.endOffset - 1
+            var endOffset = points.textRange.endOffset
 
-            // Trim trailing newlines from the fold region so the fold ends at the last content line
-            val text = group.text
-            val trimmedLength = text.trimEnd('\n').length
+            // Trim trailing newlines from the fold region
+            val pointsText = points.text
+            val trimmedLength = pointsText.trimEnd('\n').length
             if (trimmedLength > 0) {
-                endOffset = startOffset + trimmedLength
+                endOffset = points.textRange.startOffset + trimmedLength
             }
 
             if (endOffset > startOffset) {
@@ -38,34 +40,7 @@ class XitFoldingBuilder : FoldingBuilderEx() {
         return descriptors.toTypedArray()
     }
 
-    override fun getPlaceholderText(node: ASTNode): String {
-        val element = node.psi
-        if (element is XitXitGroup) {
-            val title = element.title
-            if (title != null) {
-                val titleText = title.text.trim()
-                if (titleText.isNotEmpty()) {
-                    return "$titleText ..."
-                }
-            }
-
-            val points = element.points
-            if (points != null) {
-                val firstPoint = points.pointList.firstOrNull()
-                if (firstPoint != null) {
-                    val checkboxText = firstPoint.checkboxPart.text
-                    val descriptionText = firstPoint.pointDescription.text.trim()
-                    val summary = if (descriptionText.length > 40) {
-                        descriptionText.take(40) + "..."
-                    } else {
-                        descriptionText
-                    }
-                    return "$checkboxText $summary ..."
-                }
-            }
-        }
-        return "..."
-    }
+    override fun getPlaceholderText(node: ASTNode): String = "..."
 
     override fun isCollapsedByDefault(node: ASTNode): Boolean = false
 }
