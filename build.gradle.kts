@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.lomovtsev"
-version = "1.3.0"
+version = "1.3.1"
 
 val junitVersion = "5.11.2"
 val junitPlatformConsoleVersion = "1.11.2"
@@ -24,7 +24,7 @@ intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "233"
-            untilBuild = "261.*"
+            untilBuild = "262.*"
         }
     }
 
